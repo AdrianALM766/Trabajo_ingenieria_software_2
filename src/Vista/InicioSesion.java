@@ -5,6 +5,7 @@
 package Vista;
 
 import Gestiones.ConexionBaseDatos;
+import static inventario.Inventario.enviarCorreo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -133,15 +134,24 @@ public class InicioSesion extends javax.swing.JFrame {
 
             ps.setString(1, usuario);
             ps.setString(2, contrasena);
-
+            
+            //HU-03
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     //esto abre la siguiente ventana
                     /*por el momento necesito crear el un codigo aleatorio
                     y que sea enviado al correo para que sea usado como verificacion de dos factores*/
-                    //Random random = new Random();
-                    //int codigoSeguridad = 1000 + random.nextInt(9000);
-                    new Principal().setVisible(true);
+                    Random random = new Random();
+                    int CodigoSeguridad = 1000 + random.nextInt(9000);
+                    //convierte el numero de seguridad a STR para que la funcion me lo acepte sin problema
+                    String codigoStr = String.valueOf(CodigoSeguridad);
+                    //por el momento estoy usando mi correo para probar el funcionamiento
+                    //recordar poner el @gmail
+                    enviarCorreo("adrianantoniolopezmonterrosa@gmail.com", "Clave de acceso", codigoStr);
+                    CodigoVerificacion ventanaCodigo = new CodigoVerificacion();
+                    ventanaCodigo.setCodigo(CodigoSeguridad); // asigna el código a la ventana que vas a mostrar
+                    ventanaCodigo.setVisible(true);
+                    
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
