@@ -97,12 +97,13 @@ public class Registrarse extends javax.swing.JFrame {
     
         // Validación de campos vacios
         if (correo.isEmpty() || usuario.isEmpty() || password.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+            javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios por favor ingresarlos datos");
             return;
         }
 
         if (Gestionar.existeUsuarioOCorreo(usuario, correo)) {
-            javax.swing.JOptionPane.showMessageDialog(this, "El usuario o correo ya está registrado");
+            javax.swing.JOptionPane.showMessageDialog(this, "El usuario o correo ya está registrado, por lo que no "
+                    + "deberia intentar volver a ingresar sus datos");
             return;
         }
 
@@ -112,7 +113,7 @@ public class Registrarse extends javax.swing.JFrame {
             is.setVisible(true);
             this.dispose(); // o setVisible(false)
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar (posible duplicado o error).");
+            javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar posible duplicado o tipo de datos incorrecto.");
         }
 
  

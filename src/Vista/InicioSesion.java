@@ -128,7 +128,8 @@ public class InicioSesion extends javax.swing.JFrame {
          }
         
         //consulta sql para ver si el usuario existe
-        String sql = "SELECT 1 FROM usuarios WHERE usuario = ? AND contraseña = ?";
+        String sql = "SELECT correo FROM usuarios WHERE usuario = ? AND `contraseña` = ?";
+
 
         try (Connection conn = ConexionBaseDatos.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -139,6 +140,8 @@ public class InicioSesion extends javax.swing.JFrame {
             //HU-03
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    String correoUsuario = rs.getString("correo");
+
                     //esto abre la siguiente ventana
                     /*por el momento necesito crear el un codigo aleatorio
                     y que sea enviado al correo para que sea usado como verificacion de dos factores*/
@@ -148,14 +151,14 @@ public class InicioSesion extends javax.swing.JFrame {
                     String codigoStr = String.valueOf(CodigoSeguridad);
                     //por el momento estoy usando mi correo para probar el funcionamiento
                     //recordar poner el @gmail
-                    enviarCorreo("adrianantoniolopezmonterrosa@gmail.com", "Clave de acceso", codigoStr);
+                    enviarCorreo(correoUsuario, "Clave de acceso", codigoStr);
                     CodigoVerificacion ventanaCodigo = new CodigoVerificacion();
                     ventanaCodigo.setCodigo(CodigoSeguridad); // asigna el código a la ventana que vas a mostrar
                     ventanaCodigo.setVisible(true);
                     
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+                    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos, pruebe revisando si son correctos");
                 }
             }
 

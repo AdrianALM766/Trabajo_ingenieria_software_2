@@ -110,7 +110,7 @@ public class CodigoVerificacion extends javax.swing.JFrame {
             }
         //envia una advertencia de que el codigo no es valido.
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un código numérico válido");
+            JOptionPane.showMessageDialog(this, "Ingrese un código numérico válido, este codigo solo acepta numeros");
         }
     }//GEN-LAST:event_EnviarCodigoJButtonActionPerformed
 
