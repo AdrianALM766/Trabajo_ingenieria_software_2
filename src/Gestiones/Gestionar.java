@@ -72,6 +72,22 @@ public class Gestionar {
         }
     }
     
+    public static boolean eliminarUsuario(int id){
+        
+        String sql = "DELETE FROM usuarios WHERE id_usuario = ?";
+    
+        try (Connection conn = ConexionBaseDatos.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            ps.setInt(1, id);
+            int filas = ps.executeUpdate(); // devuelve cuántas filas fueron afectadas
+
+            return filas > 0; // true si eliminó al menos 1 usuario
+        } catch (SQLException e) {
+            System.out.println("❌ Error al eliminar usuario: " + e.getMessage());
+            return false;
+        }
+        
+    }
 
 }

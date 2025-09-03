@@ -30,6 +30,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         CrearUserJButton = new javax.swing.JButton();
+        EliminarUserJButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,6 +44,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        EliminarUserJButton.setText("Eliminar usuario");
+        EliminarUserJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarUserJButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -51,7 +59,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(210, 210, 210)
-                        .addComponent(CrearUserJButton))
+                        .addComponent(CrearUserJButton)
+                        .addGap(51, 51, 51)
+                        .addComponent(EliminarUserJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(181, 181, 181)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -63,7 +73,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(135, 135, 135)
                 .addComponent(jLabel1)
                 .addGap(171, 171, 171)
-                .addComponent(CrearUserJButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CrearUserJButton)
+                    .addComponent(EliminarUserJButton))
                 .addContainerGap(295, Short.MAX_VALUE))
         );
 
@@ -73,6 +85,13 @@ public class Principal extends javax.swing.JFrame {
     private void CrearUserJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearUserJButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CrearUserJButtonActionPerformed
+
+    private void EliminarUserJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarUserJButtonActionPerformed
+        // TODO add your handling code here:
+        Borrado bo = new Borrado();
+        bo.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_EliminarUserJButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,6 +120,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CrearUserJButton;
+    private javax.swing.JButton EliminarUserJButton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

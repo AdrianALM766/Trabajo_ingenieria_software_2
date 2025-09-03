@@ -28,6 +28,8 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
                       <Component id="CrearUserJButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <Component id="EliminarUserJButton" min="-2" pref="208" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="181" max="-2" attributes="0"/>
@@ -44,7 +46,10 @@
               <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="171" max="-2" attributes="0"/>
-              <Component id="CrearUserJButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="CrearUserJButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="EliminarUserJButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="295" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -63,6 +68,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CrearUserJButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="EliminarUserJButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Eliminar usuario"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarUserJButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
