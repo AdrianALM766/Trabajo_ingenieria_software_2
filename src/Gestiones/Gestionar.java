@@ -19,7 +19,7 @@ public class Gestionar {
         // Aqui llamo la clase  conexión
         try (Connection conn = ConexionBaseDatos.conectar()) {
             
-            String sql = "SELECT * FROM usuarios WHERE usuario = ? AND contraseña = ?";
+            String sql = "SELECT * FROM usuarios WHERE usuario = ? AND `contraseña` = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, usuario);
             stmt.setString(2, password);
@@ -53,5 +53,25 @@ public class Gestionar {
             return false;
         }
     }
+    
+    //verifica si al crear/registrarse el correo ya esta en uso.
+    //Autor: Adrian
+    public static boolean existeUsuarioOCorreo(String usuario, String correo) {
+        String sql = "SELECT 1 FROM usuarios WHERE usuario = ? OR correo = ? LIMIT 1";
+        try (Connection conn = ConexionBaseDatos.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, usuario);
+            ps.setString(2, correo);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al verificar existencia: " + e.getMessage());
+            // si falla la verificacion evita registrar.
+            return true;
+        }
+    }
+    
+
 
 }
