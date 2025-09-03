@@ -90,30 +90,31 @@ public class Registrarse extends javax.swing.JFrame {
     electrónico no esté ya registrado, para evitar duplicados en la base de datos.
     */
     private void btnCrearRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRegistrarActionPerformed
-    String correo = txtRegistrarCorreo.getText().trim();
-    String usuario = txtRegistrarUsuario.getText().trim();
-    String password = txtRegistrarContrasena.getText().trim();
+        //agrego .trim() para que los campos necesiten estar llenos antes de enviar.
+        String correo = txtRegistrarCorreo.getText().trim();
+        String usuario = txtRegistrarUsuario.getText().trim();
+        String password = txtRegistrarContrasena.getText().trim();
     
-    // Validación de campos vacios
-    if (correo.isEmpty() || usuario.isEmpty() || password.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-        return;
-    }
-    
-    if (Gestionar.existeUsuarioOCorreo(usuario, correo)) {
-        javax.swing.JOptionPane.showMessageDialog(this, "El usuario o correo ya está registrado");
-        return;
-    }
-    
-    if (Gestionar.registrarUsuario(usuario, correo, password)) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
-        InicioSesion is = new InicioSesion();
-        is.setVisible(true);
-        this.dispose(); // o setVisible(false)
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar (posible duplicado o error).");
-    }
-     
+        // Validación de campos vacios
+        if (correo.isEmpty() || usuario.isEmpty() || password.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+            return;
+        }
+
+        if (Gestionar.existeUsuarioOCorreo(usuario, correo)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "El usuario o correo ya está registrado");
+            return;
+        }
+
+        if (Gestionar.registrarUsuario(usuario, correo, password)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Usuario registrado con éxito");
+            InicioSesion is = new InicioSesion();
+            is.setVisible(true);
+            this.dispose(); // o setVisible(false)
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "No se pudo registrar (posible duplicado o error).");
+        }
+
  
     }//GEN-LAST:event_btnCrearRegistrarActionPerformed
 

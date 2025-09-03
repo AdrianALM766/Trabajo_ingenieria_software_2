@@ -94,6 +94,7 @@ public class Borrado extends javax.swing.JFrame {
     private void BorrarJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarJButtonActionPerformed
         // TODO add your handling code here:
         //tomo los datos de JTextField
+        //agrego .trim() para que los campos necesiten estar llenos antes de enviar.
         String IdUsuario = UserIdJTextFiel.getText().trim();
         int IDU = Integer.parseInt(IdUsuario); //convierto el string a int para que funcione
         

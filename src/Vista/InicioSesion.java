@@ -112,6 +112,7 @@ public class InicioSesion extends javax.swing.JFrame {
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
         /*estos dos .getText obtienen los datos de los JTextField 
         y el .trim lo que hace es quitar los espacion al inio y final*/
+        //agrego .trim() para que los campos necesiten estar llenos antes de enviar.
         String usuario = txtUsuario.getText().trim();
         String contrasena = txtContrasena.getText().trim();
 
