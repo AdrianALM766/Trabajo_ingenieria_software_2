@@ -28,7 +28,7 @@ public class Inventario {
         InicioSesion inicio = new InicioSesion();
         inicio.setVisible(true);
         
-        enviarCorreo("salamalenco97@gmail.com", "Verificacion del correo electronico", "Lo he hecho my bro");
+        //enviarCorreo("salamalenco97@gmail.com", "Verificacion del correo electronico", "Lo he hecho my bro");
         
     }
     

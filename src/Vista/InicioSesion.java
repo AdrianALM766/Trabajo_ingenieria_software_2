@@ -4,6 +4,15 @@
  */
 package Vista;
 
+import Gestiones.ConexionBaseDatos;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.util.Random;
+        
+
 /**
  *
  * @author kevin
@@ -93,12 +102,68 @@ public class InicioSesion extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
+    //AUTOR ADRIAN
+    //Esta parte del codigo lo que hace es validar la clave y contraseña para poder iniciar sesion por el momento
+    //solo verifica la clave que se ingreso no si esta cumple con el 
+    //estandar de seguridad (8 caracteres, numeros, mayusculas y minusculas
+    //y caracteres especiales)
+    //HU-01
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
-        Principal principal = new Principal();
-        principal.setVisible(true);
-        this.setVisible(false);
+        /*estos dos .getText obtienen los datos de los JTextField 
+        y el .trim lo que hace es quitar los espacion al inio y final*/
+        String usuario = txtUsuario.getText().trim();
+        String contrasena = txtContrasena.getText().trim();
+
+        /*
+        esta parte verifica que lo que se este ingresando no sea "" */
+        if (usuario.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese usuario y contraseña");
+            return;
+        }
+        
+        if (!VerificarClaveSeguridad(contrasena)) {
+             JOptionPane.showMessageDialog(this, "Se sugiere cambiar la clave por una mas segura.\n Debe tener al menos 8 caracteres, incluir mayusculas, minusculas, numeros y un caracter especial.");
+         }
+        
+        //consulta sql para ver si el usuario existe
+        String sql = "SELECT 1 FROM usuarios WHERE usuario = ? AND contraseña = ?";
+
+        try (Connection conn = ConexionBaseDatos.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, usuario);
+            ps.setString(2, contrasena);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    //esto abre la siguiente ventana
+                    /*por el momento necesito crear el un codigo aleatorio
+                    y que sea enviado al correo para que sea usado como verificacion de dos factores*/
+                    //Random random = new Random();
+                    //int codigoSeguridad = 1000 + random.nextInt(9000);
+                    new Principal().setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al conectarse a la base de datos: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
+  
+    
+    //lo que hace es solo verificar si la clave del usuario cumple con lo requerido en el punto HU-01
+    //no hace nada mas que dar 
+    private boolean VerificarClaveSeguridad(String clave) {
+        //esto de aqui es lo que toma como ejemplo para saber como tiene que ser la clave.
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.,;:_-]).{8,}$";
+        return clave.matches(regex);
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -15,7 +15,7 @@ public class ConexionBaseDatos {
     
     static String urlInicioSesion = "jdbc:mysql://localhost:3306/app_login";
     static String user = "root";
-    static String pass = "123";
+    static String pass = ""; //Ingresar la contraseña del usuario root
             
     public static Connection conectar(){
         
