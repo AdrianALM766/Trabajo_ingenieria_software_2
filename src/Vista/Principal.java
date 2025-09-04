@@ -4,6 +4,9 @@
  */
 package Vista;
 
+import static inventario.Inventario.enviarCorreo;
+import java.util.Random;
+
 /**
  *
  * @author kevin
@@ -17,6 +20,13 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+    }
+    
+    private String codigoEnviado; // Aquí se guarda el código
+
+    // Método para recibir el código desde InicioSesion
+    public void setCodigoGmail(String codigo) {
+        this.codigoEnviado = codigo;
     }
 
     /**
@@ -88,7 +98,15 @@ public class Principal extends javax.swing.JFrame {
 
     private void EliminarUserJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarUserJButtonActionPerformed
         // TODO add your handling code here:
-        Borrado bo = new Borrado();
+        Random random = new Random();
+        int CodigoSeguridad = 1000 + random.nextInt(9000);
+        //convierte el numero de seguridad a STR para que la funcion me lo acepte sin problema
+        String codigoStr = String.valueOf(CodigoSeguridad);
+        String correoUsuario = GuardarGmailAC.getCorreo();
+
+        enviarCorreo(correoUsuario, "clave para borrar", codigoStr);
+        CodigoBorrado bo = new CodigoBorrado();
+        bo.setCodigoBorrar(CodigoSeguridad);
         bo.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_EliminarUserJButtonActionPerformed

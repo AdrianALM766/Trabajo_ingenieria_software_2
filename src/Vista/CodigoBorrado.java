@@ -5,6 +5,7 @@
 package Vista;
 
 
+
 import javax.swing.JOptionPane;
 
 /**
@@ -12,27 +13,22 @@ import javax.swing.JOptionPane;
  * @author adrianlopez
  */
 //HU-03
-public class CodigoVerificacion extends javax.swing.JFrame {
+public class CodigoBorrado extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CodigoVerificacion.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CodigoBorrado.class.getName());
 
     /**
      * Creates new form CodigoVerificacion
      */
     //codigo donde se recibe el del panel anterior
-    private int codigoEnviado; // Aquí se guarda el código
 
-    // Método para recibir el código desde InicioSesion
-    public void setCodigo(int codigo) {
-        this.codigoEnviado = codigo;
+    
+    private int codigoBorrar;
+    public void codigoBorrar(int codigo){
+        this.codigoBorrar=codigo;
     }
     
-    /*private String gmail;
-    public void setGmail(String gm){
-        this.gmail =gm;
-    }*/
-    
-    public CodigoVerificacion() {
+    public CodigoBorrado() {
         initComponents();
     }
 
@@ -92,7 +88,6 @@ public class CodigoVerificacion extends javax.swing.JFrame {
 
     private void EnviarCodigoJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarCodigoJButtonActionPerformed
         // TODO add your handling code here:
-        //toma lo que haya en el JTextField 
         String CodigoV = codigoJText.getText().trim();
         
         //mira si no esta vacio
@@ -106,13 +101,13 @@ public class CodigoVerificacion extends javax.swing.JFrame {
             //convierte lo que haya en el CodigoV a int
             int CodigoIngresado = Integer.parseInt(CodigoV);
             //compara CodigoV con codigoEnviado
-            if(CodigoIngresado == codigoEnviado){
+            if(CodigoIngresado == codigoBorrar){
                 //Abre la nueva ventana y cierra la actual.
-                Principal principalVentana = new Principal(); // 
-                principalVentana.setVisible(true);
+                
+                new Borrado().setVisible(true);
                 this.dispose();
             }else {
-                JOptionPane.showMessageDialog(this, "Código Incorrecto: " + codigoEnviado);
+                JOptionPane.showMessageDialog(this, "Código Incorrecto: " + codigoBorrar);
             }
         //envia una advertencia de que el codigo no es valido.
         } catch (NumberFormatException e) {
@@ -142,7 +137,7 @@ public class CodigoVerificacion extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new CodigoVerificacion().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new CodigoBorrado().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -151,4 +146,8 @@ public class CodigoVerificacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    void setCodigoBorrar(int CodigoSeguridad) {
+         this.codigoBorrar = CodigoSeguridad; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -151,9 +151,13 @@ public class InicioSesion extends javax.swing.JFrame {
                     String codigoStr = String.valueOf(CodigoSeguridad);
                     //por el momento estoy usando mi correo para probar el funcionamiento
                     //recordar poner el @gmail
+                    GuardarGmailAC.setGuardarGmail(correoUsuario);
                     enviarCorreo(correoUsuario, "Clave de acceso", codigoStr);
                     CodigoVerificacion ventanaCodigo = new CodigoVerificacion();
-                    ventanaCodigo.setCodigo(CodigoSeguridad); // asigna el código a la ventana que vas a mostrar
+                    ventanaCodigo.setCodigo(CodigoSeguridad);
+                    //ventanaCodigo.setGmail(correoUsuario); //esta parte ya no sirve para el fujo de trabajo actual
+                    // asigna el código a la ventana que vas a mostrar
+                    
                     ventanaCodigo.setVisible(true);
                     
                     this.dispose();
