@@ -72,6 +72,20 @@ public class Gestionar {
         }
     }
     
+    public static boolean existeUsuario(int usuario) {
+        String sql = "SELECT 1 FROM usuarios WHERE id_usuario = ? LIMIT 1";
+        try (Connection conn = ConexionBaseDatos.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, usuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al verificar existencia: " + e.getMessage());
+            return true; // si falla la consulta, mejor prevenir el insert/update
+        }
+    }
+    
     public static boolean eliminarUsuario(int id){
         
         String sql = "DELETE FROM usuarios WHERE id_usuario = ?";

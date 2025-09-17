@@ -112,7 +112,7 @@ public class CodigoVerificacion extends javax.swing.JFrame {
                 principalVentana.setVisible(true);
                 this.dispose();
             }else {
-                JOptionPane.showMessageDialog(this, "Código Incorrecto: " + codigoEnviado);
+                JOptionPane.showMessageDialog(this, "Código Incorrecto ");
             }
         //envia una advertencia de que el codigo no es valido.
         } catch (NumberFormatException e) {

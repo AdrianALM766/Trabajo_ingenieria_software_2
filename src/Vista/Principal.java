@@ -4,7 +4,14 @@
  */
 package Vista;
 
+
+import Gestiones.ConexionBaseDatos;
 import static inventario.Inventario.enviarCorreo;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import java.util.Random;
 
 /**
@@ -28,6 +35,9 @@ public class Principal extends javax.swing.JFrame {
     public void setCodigoGmail(String codigo) {
         this.codigoEnviado = codigo;
     }
+    
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,6 +51,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         CrearUserJButton = new javax.swing.JButton();
         EliminarUserJButton = new javax.swing.JButton();
+        RolCButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,6 +72,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        RolCButton.setText("Cambio de rol");
+        RolCButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RolCButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,13 +86,15 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(210, 210, 210)
-                        .addComponent(CrearUserJButton)
-                        .addGap(51, 51, 51)
-                        .addComponent(EliminarUserJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(181, 181, 181)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(RolCButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CrearUserJButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(51, 51, 51)
+                        .addComponent(EliminarUserJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(205, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,7 +106,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CrearUserJButton)
                     .addComponent(EliminarUserJButton))
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addGap(69, 69, 69)
+                .addComponent(RolCButton)
+                .addContainerGap(195, Short.MAX_VALUE))
         );
 
         pack();
@@ -94,22 +116,197 @@ public class Principal extends javax.swing.JFrame {
 
     private void CrearUserJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearUserJButtonActionPerformed
         // TODO add your handling code here:
+            try {
+            String correoUsuario = GuardarGmailAC.getCorreo();
+
+            Connection conn = ConexionBaseDatos.conectar();
+            String sql_rol = "SELECT r.numero_rol " +
+                             "FROM usuarios u " +
+                             "JOIN rol r ON u.id_usuario = r.id_usuario " +
+                             "WHERE u.correo = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql_rol);
+            ps.setString(1, correoUsuario);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int rol = rs.getInt("numero_rol");
+                    System.out.println("El rol del usuario es: " + rol);
+
+                    switch (rol) {
+                        case 1 -> { // ADMIN
+                            System.out.println("Es ADMIN, puede crear usuario");
+                            CrearUsuario cu = new CrearUsuario();
+                            cu.setVisible(true);
+                            this.setVisible(false);
+                        }
+                        case 2 -> { // VENDEDOR
+                            System.out.println("Es VENDEDOR, también puede crear usuario");
+                            CrearUsuario cu = new CrearUsuario();
+                            cu.setVisible(true);
+                            this.setVisible(false);
+                        }
+                        case 3 -> { // CLIENTE
+                            System.out.println("Es CLIENTE, no puede crear usuario");
+                            JOptionPane.showMessageDialog(this, 
+                                "Advertencia: No tienes permisos para crear usuarios.", 
+                                "Acceso denegado", 
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                        default -> {
+                            System.out.println("Rol no reconocido");
+                            JOptionPane.showMessageDialog(this, 
+                                "Advertencia: Error en la obtención de su rol.", 
+                                "Acceso denegado", 
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                } else {
+                    System.out.println("No se encontró el rol para este usuario");
+                    JOptionPane.showMessageDialog(this, 
+                        "Advertencia: Error en la obtención de su rol.", 
+                        "Acceso denegado", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (SQLException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error consultando rol: " + ex.getMessage());
+        }
     }//GEN-LAST:event_CrearUserJButtonActionPerformed
 
     private void EliminarUserJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarUserJButtonActionPerformed
-        // TODO add your handling code here:
-        Random random = new Random();
-        int CodigoSeguridad = 1000 + random.nextInt(9000);
-        //convierte el numero de seguridad a STR para que la funcion me lo acepte sin problema
-        String codigoStr = String.valueOf(CodigoSeguridad);
-        String correoUsuario = GuardarGmailAC.getCorreo();
+        try {
+            Random random = new Random();
+            int CodigoSeguridad = 1000 + random.nextInt(9000);
+            String codigoStr = String.valueOf(CodigoSeguridad);
 
-        enviarCorreo(correoUsuario, "clave para borrar", codigoStr);
-        CodigoBorrado bo = new CodigoBorrado();
-        bo.setCodigoBorrar(CodigoSeguridad);
-        bo.setVisible(true);
-        this.setVisible(false);
+            String correoUsuario = GuardarGmailAC.getCorreo();
+
+            Connection conn = ConexionBaseDatos.conectar();
+            String sql_rol = "SELECT r.numero_rol " +
+                             "FROM usuarios u " +
+                             "JOIN rol r ON u.id_usuario = r.id_usuario " +
+                             "WHERE u.correo = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql_rol);
+            ps.setString(1, correoUsuario); // ahora se correcto
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) { // mueve el cursor al primer resultado
+                    int rol = rs.getInt("numero_rol");
+                    System.out.println("El rol del usuario es: " + rol);
+
+                    switch (rol) {
+                        case 1 -> {
+                            System.out.println("Es ADMIN");
+                            enviarCorreo(correoUsuario, "Clave para borrar", codigoStr);
+                            CodigoBorrado bo = new CodigoBorrado();
+                            bo.setCodigoBorrar(CodigoSeguridad);
+                            bo.setVisible(true);
+                            this.setVisible(false);
+                        }
+                        case 2 -> {
+                            System.out.println("Es VENDEDOR");
+                            JOptionPane.showMessageDialog(this, 
+                            "Advertencia: No tienes permisos para ejecutar esta acción.", 
+                            "Acceso denegado", 
+                            JOptionPane.WARNING_MESSAGE);
+                        }
+                        case 3 -> {
+                            System.out.println("Es CLIENTE");
+                            JOptionPane.showMessageDialog(this, 
+                            "Advertencia: No tienes permisos para ejecutar esta acción.", 
+                            "Acceso denegado", 
+                            JOptionPane.WARNING_MESSAGE);
+                        }
+                        default -> {
+                            System.out.println("Rol no reconocido");
+                            JOptionPane.showMessageDialog(this, 
+                            "Advertencia: Error en la obtencion de su rol.", 
+                            "Acceso denegado", 
+                            JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                } else {
+                    System.out.println("No se encontró el rol para este usuario");
+                            JOptionPane.showMessageDialog(this, 
+                            "Advertencia: Error en la obtencion de su rol.", 
+                            "Acceso denegado", 
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (SQLException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error consultando rol: " + ex.getMessage());
+        }
     }//GEN-LAST:event_EliminarUserJButtonActionPerformed
+
+    private void RolCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RolCButtonActionPerformed
+        // TODO add your handling code here:
+                // TODO add your handling code here:
+            try {
+            String correoUsuario = GuardarGmailAC.getCorreo();
+
+            Connection conn = ConexionBaseDatos.conectar();
+            String sql_rol = "SELECT r.numero_rol " +
+                             "FROM usuarios u " +
+                             "JOIN rol r ON u.id_usuario = r.id_usuario " +
+                             "WHERE u.correo = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql_rol);
+            ps.setString(1, correoUsuario);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int rol = rs.getInt("numero_rol");
+                    System.out.println("El rol del usuario es: " + rol);
+
+                    switch (rol) {
+                        case 1 -> { // ADMIN
+                            System.out.println("Es ADMIN, puede cambiar los roles");
+                            CambiarRol cr = new CambiarRol();
+                            cr.setVisible(true);
+                            this.setVisible(false);
+                        }
+                        case 2 -> { // VENDEDOR
+                            System.out.println("Es Vendedor, no puede cambiar los datos del usuario");
+                            JOptionPane.showMessageDialog(this, 
+                                "Advertencia: No tienes permisos para cambiar el rol de los usuarios.", 
+                                "Acceso denegado", 
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                        case 3 -> { // CLIENTE
+                            System.out.println("Es CLIENTE, no puede cambiar los datos del usuario");
+                            JOptionPane.showMessageDialog(this, 
+                                "Advertencia: No tienes permisos para cambiar el rol de los usuarios.", 
+                                "Acceso denegado", 
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                        default -> {
+                            System.out.println("Rol no reconocido");
+                            JOptionPane.showMessageDialog(this, 
+                                "Advertencia: Error en la obtención de su rol.", 
+                                "Acceso denegado", 
+                                JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                } else {
+                    System.out.println("No se encontró el rol para este usuario");
+                    JOptionPane.showMessageDialog(this, 
+                        "Advertencia: Error en la obtención de su rol.", 
+                        "Acceso denegado", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (SQLException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error consultando rol: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_RolCButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,6 +336,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CrearUserJButton;
     private javax.swing.JButton EliminarUserJButton;
+    private javax.swing.JButton RolCButton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

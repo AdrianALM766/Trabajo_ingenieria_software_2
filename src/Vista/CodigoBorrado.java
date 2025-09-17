@@ -107,7 +107,7 @@ public class CodigoBorrado extends javax.swing.JFrame {
                 new Borrado().setVisible(true);
                 this.dispose();
             }else {
-                JOptionPane.showMessageDialog(this, "Código Incorrecto: " + codigoBorrar);
+                JOptionPane.showMessageDialog(this, "Código Incorrecto ");
             }
         //envia una advertencia de que el codigo no es valido.
         } catch (NumberFormatException e) {
