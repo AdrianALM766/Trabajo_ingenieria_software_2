@@ -1,14 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package Controladores;
 
+import GestionCorreos.EnviarCorreo;
+import Gestiones.GestionesVarias;
+import Gestiones.Validaciones;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -27,6 +30,7 @@ import javafx.util.Duration;
  */
 public class PanelAnimadoController implements Initializable {
 
+    private int contadorInicioSesion = 0;
     boolean cambio = false;
     private Stage stage;
 
@@ -71,6 +75,89 @@ public class PanelAnimadoController implements Initializable {
         imgGoogle.setImage(new Image(getClass().getResource("/Imagenes/icon-google.png").toExternalForm()));
         imgLink.setImage(new Image(getClass().getResource("/Imagenes/icon-twiter.png").toExternalForm()));
 
+    }
+
+    @FXML
+    private void iniciarSesionRegistrarse(MouseEvent event) {
+        String accion = btnRegistrarDerecho.getText();
+
+        if (accion.equals("Iniciar sesión")) {
+            inicioSesion();
+        } else if (accion.equals("Registrarse")) {
+            registrarUsuario();
+        }
+
+    }
+
+    public void inicioSesion() {
+        GestionesVarias gestiones = new GestionesVarias();
+        Validaciones validaciones = new Validaciones();
+        boolean pasa = gestiones.validarUsuarioInicioSesion(
+                txtCorreoDerecho.getText(),
+                txtPassDerecho.getText()
+        );
+
+        if (!validaciones.esCorreoValido(txtCorreoDerecho.getText())) {
+            System.out.println("Ingrese un correo válido");
+            return;
+        }
+        /*
+        if (!validaciones.verificarClaveSeguridad(txtPassDerecho.getText())) {
+            System.out.println("La contraseña no cumple con los requisitos minimos");
+            return;
+        }**/
+
+        if (pasa) {
+            contadorInicioSesion = 0;
+            stage.close();
+            
+            gestiones.codidoVerificacion(txtCorreoDerecho.getText());
+            System.out.println("Codigo en panel animado: "+GestionesVarias.getCodigoVerificacion());
+            llamarVentanaCodigoVerificacion();
+        } else {
+            contadorInicioSesion++;
+            System.out.println("❌ Fallo número " + contadorInicioSesion);
+
+            if (contadorInicioSesion >= 3) {
+                EnviarCorreo enviarCorreos = new EnviarCorreo();
+                String asunto = "Intento de acceso sospechoso a tu cuenta";
+                String mensajeTexto = enviarCorreos.getMensajeAlertaInicioSesionSospechoso();
+                enviarCorreos.enviarCorreo(txtCorreoDerecho.getText(), asunto, mensajeTexto);
+
+                System.out.println("📩 Correo de alerta enviado");
+                contadorInicioSesion = 0; // resetear después de enviar
+            }
+        }
+    }
+
+    private void registrarUsuario() {
+        GestionesVarias gestiones = new GestionesVarias();
+        Validaciones validaciones = new Validaciones();
+
+        String usuario = txtUusarioDerecho.getText();
+        String correo = txtCorreoDerecho.getText();
+        String pass = txtPassDerecho.getText();
+
+        if (!validaciones.esCorreoValido(correo)) {
+            System.out.println("Ingrese un correo válido");
+            return;
+        }
+
+        /*if (!validaciones.verificarClaveSeguridad(pass)) {
+            System.out.println("La contraseña no cumple con los requisitos minimos");
+            return;
+        }**/
+
+        boolean registrado = gestiones.registrarUsuario(usuario, correo, pass);
+
+        if (registrado) {
+            System.out.println("✅ Usuario registrado con éxito");
+            // Opcional: volver a login
+            actualizarVistaLogin();
+            cambio = true;
+        } else {
+            System.out.println("❌ Error al registrar usuario");
+        }
     }
 
     public void setStage(Stage stage) {
@@ -136,14 +223,46 @@ public class PanelAnimadoController implements Initializable {
         lblTituloDerecho.setText("Crear cuenta");
         lblUusarioDerecho.setVisible(true);
         txtUusarioDerecho.setVisible(true);
-
+        /*
         txtCorreoDerecho.setLayoutY(220);
         txtPassDerecho.setLayoutY(278);
         lblOlvidoPassDerecho.setLayoutY(325);
-        btnRegistrarDerecho.setLayoutY(362);
+        btnRegistrarDerecho.setLayoutY(362);**/
+        // Restaurar posiciones originales
+        txtCorreoDerecho.setLayoutY(248);
+        txtPassDerecho.setLayoutY(299);
+        lblOlvidoPassDerecho.setLayoutY(337);
+        btnRegistrarDerecho.setLayoutY(373);
 
         btnRegistrarDerecho.setText("Registrarse");
     }
 
+    public void llamarVentanaCodigoVerificacion() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/VerificacionCorreo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+
+            VerificacionCorreoController controller = loader.getController();
+            controller.setStage(stage);
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getContadorInicioSesion() {
+        return contadorInicioSesion;
+    }
+
+    public void setContadorInicioSesion(int contadorInicioSesion) {
+        this.contadorInicioSesion = contadorInicioSesion;
+    }
 
 }
