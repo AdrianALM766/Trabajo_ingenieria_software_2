@@ -112,7 +112,6 @@ public class PanelAnimadoController implements Initializable {
             stage.close();
             
             gestiones.codidoVerificacion(txtCorreoDerecho.getText());
-            System.out.println("Codigo en panel animado: "+GestionesVarias.getCodigoVerificacion());
             llamarVentanaCodigoVerificacion();
         } else {
             contadorInicioSesion++;

@@ -18,37 +18,50 @@ public class EnviarCorreo {
 
     public void enviarCorreo(String destinatario, String asunto, String mensajeTexto) {
 
-        // Datos del remitente (quemados)
-        final String remitente = "enviarcorreos2484@gmail.com";       //correo Gmail
-        final String claveApp = "ommj qjlu axyc jvaq";       //contraseña de aplicación
+        // 📌 Datos del remitente (definidos directamente en el código)
+        final String remitente = "enviarcorreos2484@gmail.com"; // Correo Gmail desde el que se envía
+        final String claveApp = "ommj qjlu axyc jvaq";          // Contraseña de aplicación generada en Gmail
 
-        // Configuración de servidor SMTP (Gmail)
+        // 📌 Configuración del servidor SMTP de Gmail
+        // La clase Properties funciona como un "diccionario" de configuraciones clave=valor.
+        // Aquí se definen las propiedades necesarias para que JavaMail sepa cómo conectarse a Gmail.
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");   // Dirección del servidor SMTP de Gmail
+        props.put("mail.smtp.port", "587");              // Puerto para conexión segura con STARTTLS
+        props.put("mail.smtp.auth", "true");             // Indica que requiere autenticación con usuario y clave
+        props.put("mail.smtp.starttls.enable", "true");  // Activa la encriptación STARTTLS (seguridad adicional)
 
-        // Sesión con autenticación
+        // 📌 Crear una sesión autenticada con el remitente
         Session session = Session.getInstance(props, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
+                // Devuelve las credenciales del remitente (correo y contraseña de aplicación)
                 return new PasswordAuthentication(remitente, claveApp);
             }
         });
 
         try {
-            // Crear el mensaje
+            // 📌 Crear el mensaje de correo
             Message message = new MimeMessage(session);
+
+            // Dirección del remitente
             message.setFrom(new InternetAddress(remitente));
+
+            // Dirección del destinatario (se pueden agregar múltiples separados por coma)
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+
+            // Asunto del correo
             message.setSubject(asunto);
+
+            // Contenido del mensaje en texto plano
             message.setText(mensajeTexto);
 
-            // Enviar
+            // 📌 Enviar el mensaje usando el transporte SMTP configurado
             Transport.send(message);
 
             System.out.println("✅ Correo enviado a " + destinatario);
         } catch (Exception e) {
+            // Manejo de errores en caso de que falle la autenticación, conexión o envío
             e.printStackTrace();
         }
     }
@@ -86,6 +99,5 @@ public class EnviarCorreo {
     public String[] getInfo() {
         return info;
     }
-
 
 }
