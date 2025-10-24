@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.VentaProductosController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox prefHeight="200.0" prefWidth="335.0" styleClass="vBoxLateralIzq" stylesheets="@../CSS/EstilosVentasProductos.css" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Respuestos" textFill="#878787">
+                           <font>
+                              <Font name="DejaVu Sans Condensed Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <TextField prefHeight="40.0" prefWidth="200.0" promptText="Buscar Repuestos" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="DejaVu Sans Condensed" size="13.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="transparente" />
+                              <String fx:value="txtBuscar" />
+                           </styleClass>
+                        </TextField>
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" styleClass="btnBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="Buscar" textFill="WHITE" />
+                     </children>
+                     <styleClass>
+                        <String fx:value="txtBuscar" />
+                        <String fx:value="sombra" />
+                     </styleClass>
+                  </HBox>
+                  <Pane prefHeight="18.0" prefWidth="335.0" />
+                  <VBox fx:id="cartaProductoElegido" alignment="TOP_CENTER" prefHeight="484.0" prefWidth="295.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                     <children>
+                        <HBox prefHeight="90.0" prefWidth="295.0">
+                           <children>
+                              <Label fx:id="nombreProducto" alignment="CENTER" prefHeight="90.0" prefWidth="295.0" text="Bandas Boxer" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed Bold" size="25.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ImageView fx:id="imagenProducto" fitHeight="200.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Imagenes/ImgVentaProductos/img-bandas-boxer.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <styleClass>
+                              <String fx:value="blur-falso" />
+                              <String fx:value="sombra" />
+                           </styleClass>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="btn" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
+                                 <font>
+                                    <Font />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="10.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/ImgVentaProductos/icon-menos-guion.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <TextField alignment="CENTER" prefWidth="62.0" styleClass="txtBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="0">
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed" size="15.0" />
+                                 </font>
+                              </TextField>
+                              <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="blanco" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
+                                 <font>
+                                    <Font />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="10.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/ImgVentaProductos/icon-mas.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label prefHeight="18.0" prefWidth="40.0" />
+                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="130.0" styleClass="txtBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="100000">
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed" size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="8.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="25.0" prefWidth="76.0" text="Stock" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="sombra">
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="30.0" prefWidth="125.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="125.0" styleClass="btn" stylesheets="@../CSS/EstilosVentasProductos.css" text="Informacion" textFill="#828282">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed Bold" size="13.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="txtBuscar" />
+                                    <String fx:value="sombra" />
+                                 </styleClass>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="30.0" prefWidth="125.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                                 <children>
+                                    <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/ImgVentaProductos/icon-carrito-compras.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" styleClass="btn" stylesheets="@../CSS/EstilosVentasProductos.css" text="Agregar" textFill="#828282">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed Bold" size="13.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <styleClass>
+                                    <String fx:value="txtBuscar" />
+                                    <String fx:value="sombra" />
+                                 </styleClass>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="cartaProducto" />
+                        <String fx:value="sombra" />
+                     </styleClass>
+                  </VBox>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                     <children>
+                        <HBox prefHeight="67.0" prefWidth="391.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="67.0" prefWidth="387.0" text="Seleccione los productos, elija la cantidad y click en el boton guardar" textFill="#878787" wrapText="true">
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed" size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets left="70.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="67.0" prefWidth="454.0">
+                           <children>
+                              <ImageView fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Imagenes/ImgVentaProductos/icon-volver-flecha.png" />
+                                 </image>
+                              </ImageView>
+                              <Label prefHeight="58.0" prefWidth="61.0" text="Atras">
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="120.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="120.0" prefWidth="75.0" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="340.0" styleClass="registrarProductos" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <children>
+                              <VBox prefHeight="120.0" prefWidth="206.0">
+                                 <children>
+                                    <Label prefHeight="28.0" prefWidth="173.0" text="Registrar producto" textFill="#878787">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed Bold" size="18.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets />
+                                       </BorderPane.margin>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label prefHeight="57.0" prefWidth="187.0" text="Ingresa la información y guarda en la base de datos" textFill="#878787" wrapText="true">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </VBox>
+                              <ImageView fitHeight="80.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Imagenes/ImgVentaProductos/icon-anadir-producto.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </HBox>
+                        <Pane prefHeight="120.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="340.0" styleClass="aplicarDescuento" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="206.0">
+                                 <children>
+                                    <Label prefHeight="28.0" prefWidth="173.0" text="Aplicar descuento" textFill="#878787">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed Bold" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label prefHeight="57.0" prefWidth="187.0" text="Reduce el precio de los productos seleccionados" textFill="#878787" wrapText="true">
+                                       <font>
+                                          <Font name="DejaVu Sans Condensed" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <ImageView fitHeight="80.0" fitWidth="87.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Imagenes/ImgVentaProductos/icon-descuento.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </HBox>
+                        <Pane prefHeight="120.0" prefWidth="75.0" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ScrollPane fx:id="scrollPane" prefHeight="488.0" prefWidth="832.0" styleClass="transparent" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <content>
+                              <GridPane fx:id="gridPane" prefHeight="190.0" prefWidth="204.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

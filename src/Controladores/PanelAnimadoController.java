@@ -71,9 +71,6 @@ public class PanelAnimadoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imgFace.setImage(new Image(getClass().getResource("/Imagenes/icon-face.png").toExternalForm()));
-        imgGoogle.setImage(new Image(getClass().getResource("/Imagenes/icon-google.png").toExternalForm()));
-        imgLink.setImage(new Image(getClass().getResource("/Imagenes/icon-twiter.png").toExternalForm()));
 
     }
 

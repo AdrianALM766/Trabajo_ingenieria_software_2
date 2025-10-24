@@ -3,14 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Controladores/VerificacionCorreoController.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Gestiones/GestionesVarias.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Gestiones/TemporizadorInactividad.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Controladores/PanelAnimadoController.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Gestiones/ConexionBaseDatos.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Gestiones/Encriptar.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/GestionCorreos/EnviarCorreo.java</file>
-            <file>file:/home/kevin/Documentos/Java/PruebaFxLogin/src/Principal/Main.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/VentaProductosController.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/ProductosController.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Main/App.java</file>
         </group>
     </open-files>
 </project-private>

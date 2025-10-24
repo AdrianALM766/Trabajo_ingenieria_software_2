@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -19,9 +20,18 @@
                     </font>
                 </Label>
                 <Label fx:id="lblSubtituloDerecho" layoutX="22.0" layoutY="110.0" prefHeight="51.0" prefWidth="393.0" style="-fx-font-family: Segoe UI; -fx-text-fill: black; -fx-alignment: center;" text="o usa tu correo electrónico para registrarte" textAlignment="RIGHT" wrapText="true" />
-                <ImageView fx:id="imgFace" fitHeight="30.0" fitWidth="30.0" layoutX="103.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgGoogle" fitHeight="30.0" fitWidth="30.0" layoutX="209.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgLink" fitHeight="30.0" fitWidth="30.0" layoutX="301.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="imgFace" fitHeight="30.0" fitWidth="30.0" layoutX="103.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/icon-face.png" />
+               </image></ImageView>
+            <ImageView fx:id="imgGoogle" fitHeight="30.0" fitWidth="30.0" layoutX="209.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/icon-google.png" />
+               </image></ImageView>
+            <ImageView fx:id="imgLink" fitHeight="30.0" fitWidth="30.0" layoutX="301.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/icon-twiter.png" />
+               </image></ImageView>
             <Label fx:id="lblUusarioDerecho" layoutX="90.0" layoutY="168.0" prefHeight="22.0" prefWidth="170.0" text="Label" />
             <TextField fx:id="txtUusarioDerecho" layoutX="90.0" layoutY="190.0" prefHeight="30.0" prefWidth="256.0" promptText="Usuario" />
             <Label fx:id="lblCorreoDerecho" layoutX="90.0" layoutY="228.0" prefHeight="22.0" prefWidth="170.0" text="Label" />

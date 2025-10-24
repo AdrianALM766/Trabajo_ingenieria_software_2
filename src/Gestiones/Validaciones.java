@@ -6,6 +6,7 @@ package Gestiones;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.TextField;
 
 public class Validaciones {
 
@@ -33,6 +34,15 @@ public class Validaciones {
         //esto de aqui es lo que toma como ejemplo para saber como tiene que ser la clave.
         String regex = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@$!%*?&.,;:_-]).{8,}$";
         return clave.matches(regex);
+    }
+    
+        public void limitarLongitud(TextField textField, int limite) {
+        textField.textProperty().addListener((observable, valorAnterior, valorNuevo) -> {
+            if (valorNuevo.length() > limite) {
+                String textoRecortado = valorNuevo.substring(0, limite);
+                textField.setText(textoRecortado);
+            }
+        });
     }
     
 

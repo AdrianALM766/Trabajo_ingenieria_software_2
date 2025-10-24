@@ -6,8 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Random;
 
 public class GestionesVarias {
@@ -411,17 +413,18 @@ public class GestionesVarias {
         return true;
     }
 
-    /*
-    // Validación de contraseña
-    public static boolean validarContrasena(String contrasenaIngresada) {
-        String CLAVE_CORRECTA = "1234";
-        return contrasenaIngresada.equals(CLAVE_CORRECTA);
-    }
+    public static String nominacionPrecioColombiano(double precio){
 
-    // Lógica de eliminación
-    public static void eliminarUsuario(String usuario) {
-        System.out.println("✅ Usuario " + usuario + " eliminado de la base de dato");
-    }**/
+        // Crear un Locale para Colombia
+        Locale colombia = new Locale("es", "CO");
+        // Crear el formateador de moneda
+        NumberFormat formatoColombiano = NumberFormat.getCurrencyInstance(colombia);
+        // Formatear el precio
+        String precioFormateado = formatoColombiano.format(precio);
+            
+        return  precioFormateado;
+    }
+    
     public static int getCodigoVerificacion() {
         return codigoVerificacion;
     }

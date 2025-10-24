@@ -1,0 +1,56 @@
+.txtBuscar{
+    -fx-background-radius: 100;
+    -fx-background-color: #ffffff
+}
+
+.blanco{
+    -fx-background-radius: 100;
+    -fx-background-color: #ffffff
+}
+
+.registrarProductos{
+    -fx-background-color: #D3D3D3;
+    -fx-background-radius: 30;
+}
+
+.aplicarDescuento{
+    -fx-background-color: #BAEAC3;
+    -fx-background-radius: 30;
+    
+}
+
+.btnBuscar{
+    -fx-background-color: #828282;
+    -fx-background-radius: 30;
+}
+
+.btn{
+    -fx-background-color: white;
+    -fx-background-radius: 30; 
+    -fx-border-radius: 30;
+}
+
+.vBoxLateralIzq{
+    -fx-background-color: #D3D3D3;
+}
+
+.sombra{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.cartaProducto{
+    -fx-background-radius: 30; 
+    -fx-background-color:#0296d6;
+}
+
+.blur-falso {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-radius: 100;
+    -fx-border-radius: 100;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+}
+
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}

@@ -1,0 +1,46 @@
+.root{
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 30;
+}
+
+.barraLateral{
+    -fx-background-color: white;
+    /*-fx-background-radius: 30px 30px 0px 0px;  #f3f3f3*/
+}
+
+.trasparente{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.btnActivo {
+    -fx-effect: innershadow(gaussian, #284983, 100, 0.5, 0, 0);
+}
+
+.btnInactivo {
+    -fx-effect: innershadow(gaussian, gray, 100, 0.5, 0, 0);
+}
+
+.panelArriba{
+    -fx-background-color: white;
+    -fx-background-radius: 0px 0px 20px 20px;
+    -fx-border-radius: 0px 0px 20px 20px;
+}
+
+.sombra{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.cartoPanelArriba{
+    -fx-background-color: linear-gradient(to right, #29a9e2,#0294d3);
+    -fx-background-radius: 10;
+}
+
+.cartoPanelArriba1{
+    -fx-background-color: linear-gradient(to right, #29a9e2,#32c2b9);
+    -fx-background-radius: 10;
+}
+
+.cartoPanelArriba2{
+    -fx-background-color: linear-gradient(to right, #2b818c,#78a890);
+    -fx-background-radius: 10;
+}
