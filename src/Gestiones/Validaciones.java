@@ -6,7 +6,9 @@ package Gestiones;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 public class Validaciones {
 
@@ -35,14 +37,37 @@ public class Validaciones {
         String regex = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@$!%*?&.,;:_-]).{8,}$";
         return clave.matches(regex);
     }
-    
-        public void limitarLongitud(TextField textField, int limite) {
+
+    public void limitarLongitud(TextField textField, int limite) {
         textField.textProperty().addListener((observable, valorAnterior, valorNuevo) -> {
             if (valorNuevo.length() > limite) {
                 String textoRecortado = valorNuevo.substring(0, limite);
                 textField.setText(textoRecortado);
             }
         });
+    }
+
+    public void limitarLongitudTextArea(TextArea textField, int limite) {
+        textField.textProperty().addListener((observable, valorAnterior, valorNuevo) -> {
+            if (valorNuevo.length() > limite) {
+                String textoRecortado = valorNuevo.substring(0, limite);
+                textField.setText(textoRecortado);
+            }
+        });
+    }
+
+    public void validacionNumeros(TextField txtNumero) {
+        txtNumero.setTextFormatter(new TextFormatter<String>(change -> {
+            if (change.getControlNewText().matches("\\d*")) {
+                return change; // aceptar cambio
+            } else {
+                return null; // rechazar letras/símbolos
+            }
+        }));
+    }
+    
+    public boolean validarMInimoLetras(int totalLetras, int minimoLetras){
+        return  totalLetras < minimoLetras;
     }
     
 

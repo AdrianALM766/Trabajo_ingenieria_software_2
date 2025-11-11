@@ -92,6 +92,15 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
+                           <image>
+                              <Image url="@../Imagenes/ImgDashboard/icon-categorias-de-productos.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </VBox>
          </children>

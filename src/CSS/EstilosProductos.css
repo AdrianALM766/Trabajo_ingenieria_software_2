@@ -1,0 +1,22 @@
+.trasparente{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.fonfoBlanco{
+    -fx-background-color: #ffffff;
+}
+
+.fondoGris{
+    -fx-background-color: #f3f3f3;
+
+}
+
+.lineasHBox{
+    -fx-border-color: black;
+    -fx-border-width: 0.2;
+}
+
+.btnCrud{
+    -fx-background-color: #828282;
+    -fx-background-radius: 100;
+}

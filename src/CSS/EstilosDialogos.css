@@ -1,0 +1,13 @@
+.fondo{
+    -fx-background-color: #77CBDA;
+}
+
+.btn{
+    -fx-background-color: white;
+    -fx-background-radius: 30; 
+    -fx-border-radius: 30;
+}
+
+.sombra{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}

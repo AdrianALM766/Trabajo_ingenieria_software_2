@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -281,78 +283,6 @@ public class GestionesVarias {
         return codigo;
     }
 
-// Verificar si un usuario es administrador
-    public static boolean esAdmin(String usuario) {
-        // Consulta SQL que une usuarios con su rol correspondiente
-        String sql = """
-        SELECT r.numero_rol
-        FROM usuarios u
-        JOIN rol r ON u.id_usuario = r.id_usuario
-        WHERE u.usuario = ?
-    """;
-
-        // try-with-resources: asegura que Connection y PreparedStatement se cierren automáticamente
-        try (Connection conn = ConexionBaseDatos.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            // Asignar el valor del usuario al parámetro de la consulta
-            stmt.setString(1, usuario);
-
-            // Ejecutar la consulta
-            ResultSet rs = stmt.executeQuery();
-
-            // Si existe un resultado, verificamos el número de rol
-            if (rs.next()) {
-                return rs.getInt("numero_rol") == 1; // true si es administrador
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace(); // Mostrar el error en consola
-        }
-
-        // Si no se encontró el usuario o hubo error, no es admin
-        return false;
-    }
-
-    // Asignar rol a otro usuario (solo lo hace un admin)
-    public static boolean asignarRol(String adminUsuario, String targetUsuario, int nuevoRol) {
-        // 🚨 Validación de permisos: 
-        // Solo se permite continuar si el usuario que ejecuta la acción es administrador.
-        if (!esAdmin(adminUsuario)) {
-            System.out.println("❌ Solo un administrador puede asignar roles.");
-            return false;
-        }
-
-        try (Connection conn = ConexionBaseDatos.conectar()) {
-
-            // 1️⃣ Obtener el ID único del usuario al que se le quiere asignar el rol.
-            // Si el usuario no existe en la base de datos, se detiene la operación.
-            int usuarioId = getIdUsuario(conn, targetUsuario);
-            if (usuarioId == -1) {
-                System.out.println("❌ El usuario destino no existe.");
-                return false;
-            }
-
-            // 2️⃣ Verificar si este usuario ya tiene un rol registrado en la tabla `rol`.
-            if (usuarioTieneRol(conn, usuarioId)) {
-                // ✅ Caso A: El usuario ya tiene rol → Se actualiza con el nuevo valor.
-                actualizarRol(conn, usuarioId, nuevoRol);
-                System.out.println("✅ Rol actualizado correctamente.");
-            } else {
-                // ✅ Caso B: El usuario no tiene rol → Se inserta uno nuevo en la base de datos.
-                insertarRol(conn, usuarioId, nuevoRol);
-                System.out.println("✅ Rol asignado correctamente.");
-            }
-
-            return true; // Operación exitosa.
-
-        } catch (SQLException e) {
-            // 🚨 Manejo de errores en caso de fallo de conexión o sentencia SQL.
-            e.printStackTrace();
-        }
-
-        return false; // Si hubo alguna excepción o fallo.
-    }
-
     private static int getIdUsuario(Connection conn, String usuario) throws SQLException {
         // Consulta SQL para obtener el id_usuario a partir del nombre de usuario
         String sql = "SELECT id_usuario FROM usuarios WHERE usuario = ?";
@@ -370,61 +300,25 @@ public class GestionesVarias {
         return -1;
     }
 
-    private static boolean usuarioTieneRol(Connection conn, int usuarioId) throws SQLException {
-        // Consulta SQL para verificar si un usuario ya tiene un rol asignado
-        String sql = "SELECT 1 FROM rol WHERE id_usuario = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Se asigna el valor del id_usuario al parámetro de la consulta
-            stmt.setInt(1, usuarioId);
-            // Se ejecuta la consulta
-            ResultSet rs = stmt.executeQuery();
-            // Retorna true si existe un registro asociado, false en caso contrario
-            return rs.next();
-        }
-    }
-
-    private static void insertarRol(Connection conn, int usuarioId, int nuevoRol) throws SQLException {
-        // Consulta SQL para insertar un nuevo rol a un usuario
-        String sql = "INSERT INTO rol (id_usuario, numero_rol) VALUES (?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Se asignan los valores del usuario y el rol al INSERT
-            stmt.setInt(1, usuarioId);
-            stmt.setInt(2, nuevoRol);
-            // Se ejecuta la inserción
-            stmt.executeUpdate();
-        }
-    }
-
-    private static void actualizarRol(Connection conn, int usuarioId, int nuevoRol) throws SQLException {
-        // Consulta SQL para actualizar el rol de un usuario existente
-        String sql = "UPDATE rol SET numero_rol = ? WHERE id_usuario = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Se asignan los nuevos valores al UPDATE
-            stmt.setInt(1, nuevoRol);
-            stmt.setInt(2, usuarioId);
-            // Se ejecuta la actualización
-            stmt.executeUpdate();
-        }
-    }
-
     // Validación de confirmación
     public static boolean confirmarAccion() {
-
         return true;
     }
 
-    public static String nominacionPrecioColombiano(double precio){
+    public static String nominacionPrecioColombiano(double precio) {
+        NumberFormat formatoColombiano = NumberFormat.getCurrencyInstance(
+                new Locale.Builder().setLanguage("es").setRegion("CO").build());
+        formatoColombiano.setMaximumFractionDigits(0);
 
-        // Crear un Locale para Colombia
-        Locale colombia = new Locale("es", "CO");
-        // Crear el formateador de moneda
-        NumberFormat formatoColombiano = NumberFormat.getCurrencyInstance(colombia);
-        // Formatear el precio
-        String precioFormateado = formatoColombiano.format(precio);
-            
-        return  precioFormateado;
+        // Formatea normalmente
+        String formateado = formatoColombiano.format(precio);
+
+        // Quita el signo de moneda y los espacios
+        formateado = formateado.replace(" ", "");
+
+        return formateado;
     }
-    
+
     public static int getCodigoVerificacion() {
         return codigoVerificacion;
     }

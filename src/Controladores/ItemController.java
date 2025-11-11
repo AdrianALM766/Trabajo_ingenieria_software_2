@@ -1,9 +1,8 @@
-
 package Controladores;
 
 import Main.App;
 import Main.Listener;
-import Modelos.Productos;
+import Modelos.VentaProductos;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -33,25 +32,24 @@ public class ItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
-    Productos productos;
-    Listener listener;
+    }
 
-    public void setInfo(Productos productos, Listener mylistener) {
+    private VentaProductos productos;
+    private Listener<VentaProductos> listener;
+
+    public void setInfo(VentaProductos productos, Listener mylistener) {
         this.productos = productos;
         this.listener = mylistener;
         nombreLabel.setText(productos.getNombre());
-        preciolabel.setText(App.SIGNODINERO + productos.getPrecio());
+        //preciolabel.setText(App.SIGNODINERO + productos.getPrecio());
+        preciolabel.setText(productos.getPrecioMostrar());
         Image image = new Image(getClass().getResourceAsStream(productos.getImgUrl()));
         imagen.setImage(image);
     }
 
     @FXML
     private void click(MouseEvent event) {
-        listener.onClickListener(productos);
+        listener.onClickListener(productos, "");
     }
 
-    
-    
 }

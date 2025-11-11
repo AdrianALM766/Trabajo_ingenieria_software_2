@@ -1,10 +1,6 @@
-
 package Main;
 
-import Modelos.Productos;
 
-public interface Listener {
-    
-    public void onClickListener(Productos productos);
-    
+public interface Listener<T> {
+    void onClickListener(T objeto, String accion);
 }

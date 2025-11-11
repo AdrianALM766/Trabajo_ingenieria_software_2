@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Main;
 
+import Controladores.CategoriasController;
 import Controladores.DashboardController;
+import Controladores.ClienteController;
 import Controladores.ProductosController;
 import Controladores.VentaProductosController;
 import java.io.IOException;
@@ -16,14 +15,13 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    public static final String SIGNODINERO =  "$";
     
     @Override
     public void start(Stage PrincipalStage) throws Exception {
         
         try {
             // Cargar el archivo FXML desde el paquete Controledores
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/VentaProductos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/Productos.fxml"));
             Parent root = loader.load();
 
             // Crear la escena
@@ -33,7 +31,7 @@ public class App extends Application {
             PrincipalStage.setScene(scene);
 
             // Obtener el controlador
-            VentaProductosController controller = loader.getController();
+            ProductosController controller = loader.getController();
             controller.setStage(PrincipalStage);
 
             // Mostrar la ventana

@@ -1,0 +1,52 @@
+.blur-falso {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-radius: 100;
+    -fx-border-radius: 10;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.fondo{
+    -fx-background-color: #77CBDA;
+}
+
+.lineasHBox{
+    -fx-border-color: black;
+    -fx-border-width: 0.2;
+}
+
+.btn{
+    -fx-background-color: white;
+    -fx-background-radius: 30; 
+    -fx-border-radius: 30;
+}
+
+.sombra{
+    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+}
+
+.text-area {
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* Scroll interno */
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+/* Viewport (zona visible) */
+.text-area .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Contenido donde se escribe el texto */
+.text-area .content {
+    -fx-background-color: rgba(255, 255, 255, 0.3); /* efecto vidrio */
+    -fx-background-radius: 10;
+}

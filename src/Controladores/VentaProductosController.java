@@ -2,7 +2,7 @@ package Controladores;
 
 import Gestiones.GestionesVarias;
 import Main.Listener;
-import Modelos.Productos;
+import Modelos.VentaProductos;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,10 @@ import javafx.stage.Stage;
 
 public class VentaProductosController implements Initializable {
 
-    private List<Productos> productosList = new ArrayList<>();
+    private List<VentaProductos> productosList = new ArrayList<>();
     private Listener listener;
     private Image image;
-    private Productos productos;
+    private VentaProductos productos;
 
     private Stage stage;
     @FXML
@@ -50,54 +50,54 @@ public class VentaProductosController implements Initializable {
 
     }
 
-    private List<Productos> getInfo() {
-        List<Productos> productosList = new ArrayList<>();
-        Productos productos;
+    private List<VentaProductos> getInfo() {
+        List<VentaProductos> productosList = new ArrayList<>();
+        VentaProductos productos;
 
-        //double precio = Double.parseDouble(GestionesVarias.nominacionPrecioColombiano(100000));
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("Bandas pulsar");
-        productos.setPrecio(20000);
+        productos.setPrecio(200000);
+        productos.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(100000));
         productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("guaya pulsar");
         productos.setPrecio(4000);
         productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("Bandas xr");
         productos.setPrecio(200000);
         productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("guaya xr");
         productos.setPrecio(4000);
         productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("Bandas pulsar");
         productos.setPrecio(20000);
         productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("guaya pulsar");
         productos.setPrecio(4000);
         productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("Bandas xr");
         productos.setPrecio(200000);
         productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
         productosList.add(productos); 
         
-        productos = new Productos();
+        productos = new VentaProductos();
         productos.setNombre("guaya xr");
         productos.setPrecio(4000);
         productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
@@ -106,7 +106,7 @@ public class VentaProductosController implements Initializable {
         return productosList;
     }
 
-    private void setCartaProductoElegido(Productos productos) {
+    private void setCartaProductoElegido(VentaProductos productos) {
 
         nombreProducto.setText(productos.getNombre());
         image = new Image(getClass().getResourceAsStream(productos.getImgUrl()));
@@ -119,9 +119,9 @@ public class VentaProductosController implements Initializable {
         productosList.addAll(getInfo());
         if (productosList.size() > 0) {
             setCartaProductoElegido(productosList.get(0));
-            listener = new Listener() {
+            listener = new Listener<VentaProductos>() {
                 @Override
-                public void onClickListener(Productos productos) {
+                public void onClickListener(VentaProductos productos, String accion) {
                     setCartaProductoElegido(productos);
                 }
             };
@@ -132,7 +132,7 @@ public class VentaProductosController implements Initializable {
         try {
             for (int i = 0; i < productosList.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Vistas/Item.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/Vistas/ItemVentaProducto.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
