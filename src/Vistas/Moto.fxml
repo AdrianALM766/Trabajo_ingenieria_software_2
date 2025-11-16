@@ -4,9 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="680.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ProductosController">
+<BorderPane prefHeight="680.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MotoController">
    <left>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" styleClass="fonfoBlanco" stylesheets="@../CSS/EstilosProductos.css" BorderPane.alignment="CENTER">
          <children>
@@ -97,7 +97,7 @@
       </VBox>
    </left>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="648.0" prefWidth="850.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="648.0" prefWidth="850.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="910.0">
                <VBox.margin>
@@ -106,7 +106,7 @@
                <children>
                   <HBox prefHeight="36.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label prefHeight="35.0" prefWidth="225.0" text="Gestion Productos">
+                        <Label prefHeight="35.0" prefWidth="225.0" text="Gestion Moto">
                            <font>
                               <Font name="DejaVu Sans Condensed Bold" size="20.0" />
                            </font>
@@ -118,24 +118,24 @@
                   </HBox>
                </children>
             </HBox>
-            <VBox prefHeight="189.0" prefWidth="910.0">
+            <VBox prefHeight="192.0" prefWidth="910.0">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="890.0">
                      <VBox.margin>
-                        <Insets bottom="2.0" left="10.0" right="10.0" top="5.0" />
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
                      <children>
-                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="60.0" prefWidth="336.0">
+                        <Pane prefHeight="56.0" prefWidth="30.0" />
+                        <VBox prefHeight="60.0" prefWidth="118.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="128.0" text="Nombre">
+                              <Label prefHeight="24.0" prefWidth="118.0" text="Placa">
                                  <VBox.margin>
-                                    <Insets left="10.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
-                              <HBox prefHeight="27.0" prefWidth="336.0">
+                              <HBox prefHeight="29.0" prefWidth="336.0">
                                  <children>
-                                    <TextField fx:id="txtNombreProducto" prefHeight="30.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="txtPlaca" prefHeight="36.0" prefWidth="118.0" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="DejaVu Sans Condensed" size="14.0" />
                                        </font>
@@ -145,35 +145,64 @@
                            </children>
                         </VBox>
                         <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="46.0" prefWidth="149.0">
+                        <VBox prefHeight="56.0" prefWidth="150.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="133.0" text="Costo">
+                              <Label prefHeight="24.0" prefWidth="122.0" text="Marca">
                                  <VBox.margin>
-                                    <Insets left="10.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
                               <HBox prefHeight="29.0" prefWidth="149.0">
                                  <children>
-                                    <TextField fx:id="txtCostoProducto" prefHeight="30.0" prefWidth="110.0" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </TextField>
+                                    <ComboBox fx:id="comboMarca" prefHeight="29.0" prefWidth="172.0" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                         <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="46.0" prefWidth="149.0">
+                        <VBox prefHeight="46.0" prefWidth="150.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="133.0" text="Precio">
+                              <Label prefHeight="24.0" prefWidth="97.0" text="Cilindraje">
                                  <VBox.margin>
-                                    <Insets left="10.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
                               <HBox prefHeight="29.0" prefWidth="149.0">
                                  <children>
-                                    <TextField fx:id="txtPrecioProducto" prefHeight="30.0" prefWidth="110.0" HBox.hgrow="ALWAYS">
+                                    <ComboBox fx:id="comboCilindraje" prefHeight="29.0" prefWidth="157.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
+                        <VBox prefHeight="46.0" prefWidth="150.0">
+                           <children>
+                              <Label prefHeight="24.0" prefWidth="128.0" text="Modelo">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox prefHeight="29.0" prefWidth="149.0">
+                                 <children>
+                                    <ComboBox fx:id="comboModelo" prefHeight="29.0" prefWidth="156.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </VBox>
+                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
+                        <VBox prefHeight="60.0" prefWidth="122.0">
+                           <children>
+                              <Label prefHeight="24.0" prefWidth="97.0" text="Color">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox prefHeight="29.0" prefWidth="149.0">
+                                 <children>
+                                    <TextField fx:id="txtColor" prefHeight="29.0" prefWidth="131.0">
                                        <font>
                                           <Font name="DejaVu Sans Condensed" size="14.0" />
                                        </font>
@@ -182,59 +211,48 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="56.0" prefWidth="146.0">
-                           <children>
-                              <Label prefHeight="24.0" prefWidth="100.0" text="Categoria">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox prefHeight="31.0" prefWidth="110.0">
-                                 <children>
-                                    <ComboBox fx:id="comboCategoria" prefHeight="30.0" prefWidth="150.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="60.0" prefWidth="24.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="910.0">
-                     <VBox.margin>
-                        <Insets bottom="2.0" left="10.0" right="10.0" top="5.0" />
-                     </VBox.margin>
+                  <HBox alignment="CENTER_LEFT" prefHeight="115.0" prefWidth="890.0">
                      <children>
-                        <Pane prefHeight="56.0" prefWidth="12.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="60.0" prefWidth="121.0">
+                        <Pane maxWidth="50.0" prefHeight="153.0" prefWidth="30.0" />
+                        <VBox prefHeight="153.0" prefWidth="276.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="128.0" text="Cantidad">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox prefHeight="30.0" prefWidth="121.0">
+                              <Label prefHeight="24.0" prefWidth="165.0" text="Descripcion" />
+                              <HBox prefHeight="126.0" prefWidth="276.0">
                                  <children>
-                                    <TextField fx:id="txtCantidadProducto" prefHeight="30.0" prefWidth="110.0" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </TextField>
+                                    <TextArea fx:id="txtDescripcion" prefHeight="126.0" prefWidth="279.0" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                        <Pane maxWidth="26.0" prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="60.0" prefWidth="166.0">
+                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="CENTER" prefHeight="153.0" prefWidth="179.0">
                            <children>
-                              <Label prefHeight="22.0" prefWidth="128.0" text="Cantidad minina">
+                              <Label prefHeight="24.0" prefWidth="188.0" text="Año">
                                  <VBox.margin>
-                                    <Insets left="5.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Label>
-                              <HBox prefHeight="30.0" prefWidth="166.0">
+                              <HBox prefHeight="29.0" prefWidth="336.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
                                  <children>
-                                    <TextField fx:id="txtCantidadMinima" prefHeight="30.0" prefWidth="110.0" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="ano" prefHeight="29.0" prefWidth="87.0" />
+                                 </children>
+                              </HBox>
+                              <Label prefHeight="24.0" prefWidth="188.0" text="Elegir cliente" underline="true">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="29.0" prefWidth="336.0">
+                                 <children>
+                                    <TextField fx:id="txtCliente" prefHeight="29.0" prefWidth="186.0">
                                        <font>
                                           <Font name="DejaVu Sans Condensed" size="14.0" />
                                        </font>
@@ -243,86 +261,22 @@
                               </HBox>
                            </children>
                            <HBox.margin>
-                              <Insets top="5.0" />
+                              <Insets />
                            </HBox.margin>
                         </VBox>
                         <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="60.0" prefWidth="243.0">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="128.0" text="Lugar">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox prefHeight="30.0" prefWidth="243.0">
-                                 <children>
-                                    <TextField fx:id="txtLugarProducto" prefHeight="30.0" prefWidth="236.0" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </TextField>
-                                 </children>
-                              </HBox>
+                              <Button mnemonicParsing="false" onMouseClicked="#agregar" prefHeight="44.0" prefWidth="105.0" text="Agregar" />
                            </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
                         </VBox>
-                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                        <VBox prefHeight="60.0" prefWidth="208.0">
-                           <children>
-                              <Label prefHeight="24.0" prefWidth="128.0" text="Fecha ingreso">
-                                 <VBox.margin>
-                                    <Insets left="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox prefHeight="30.0" prefWidth="208.0">
-                                 <children>
-                                    <DatePicker fx:id="fechaIngresoProducto" prefHeight="30.0" prefWidth="159.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="877.0">
-                     <children>
-                        <Pane prefHeight="56.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
-                        <HBox prefHeight="56.0" prefWidth="598.0">
-                           <children>
-                              <VBox prefHeight="56.0" prefWidth="421.0">
-                                 <children>
-                                    <Label prefHeight="24.0" prefWidth="128.0" text="Descripcion">
-                                       <VBox.margin>
-                                          <Insets left="10.0" />
-                                       </VBox.margin>
-                                    </Label>
-                                    <HBox prefHeight="38.0" prefWidth="454.0">
-                                       <children>
-                                          <TextArea fx:id="txtDescripcionProducto" prefHeight="38.0" prefWidth="317.0">
-                                             <font>
-                                                <Font name="DejaVu Sans Condensed" size="13.0" />
-                                             </font>
-                                          </TextArea>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <Pane prefHeight="56.0" prefWidth="26.0" HBox.hgrow="ALWAYS" />
-                        <Pane prefHeight="56.0" prefWidth="42.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
-                        <Pane prefHeight="56.0" prefWidth="28.0" />
-                        <VBox alignment="CENTER" prefHeight="56.0" prefWidth="188.0">
-                           <children>
-                              <Button mnemonicParsing="false" onMouseClicked="#agregarProductos" prefHeight="42.0" prefWidth="102.0" text="Agregar" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="60.0" prefWidth="24.0" HBox.hgrow="ALWAYS" />
+                        <Pane prefHeight="150.0" prefWidth="18.0" HBox.hgrow="ALWAYS" />
                      </children>
                      <VBox.margin>
-                        <Insets bottom="2.0" left="10.0" right="10.0" top="5.0" />
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                      </VBox.margin>
                   </HBox>
                </children>
@@ -332,7 +286,7 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="63.0" prefWidth="850.0">
                <VBox.margin>
-                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </VBox.margin>
                <children>
                   <Pane prefHeight="63.0" prefWidth="375.0" HBox.hgrow="ALWAYS" />
@@ -340,7 +294,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" stylesheets="@../CSS/EstilosVentasProductos.css">
                            <children>
-                              <TextField fx:id="txtBuscar" onKeyReleased="#buscar" prefHeight="40.0" prefWidth="369.0" promptText="Buscar Repuestos" stylesheets="@../CSS/EstilosVentasProductos.css">
+                              <TextField prefHeight="40.0" prefWidth="369.0" promptText="Buscar Motos" stylesheets="@../CSS/EstilosVentasProductos.css">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
@@ -367,73 +321,67 @@
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
                   </VBox>
-                  <Pane prefHeight="63.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" maxWidth="870.0" prefHeight="43.0" prefWidth="933.0" styleClass="fondoGris" stylesheets="@../CSS/EstilosProductos.css">
                <children>
-                  <ScrollPane prefHeight="377.0" prefWidth="890.0" styleClass="trasparente" stylesheets="@../CSS/EstilosProductos.css">
+                  <Label prefHeight="43.0" prefWidth="50.0">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="32.0" />
+                  <Label prefHeight="43.0" prefWidth="119.0" text="Placa" wrapText="true">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="3.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefWidth="32.0" />
+                  <Label prefHeight="43.0" prefWidth="121.0" text="Cliente">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="32.0" />
+                  <Label prefHeight="43.0" prefWidth="127.0" text="Color">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="32.0" />
+                  <Label prefHeight="43.0" prefWidth="156.0" text="Marca">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="13.0" />
+                     </font>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="32.0" />
+                  <Label prefHeight="32.0" prefWidth="114.0">
+                     <font>
+                        <Font name="DejaVu Sans Condensed" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="40.0" right="40.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="308.0" prefWidth="950.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ScrollPane maxWidth="870.0" prefHeight="310.0" prefWidth="969.0">
                      <content>
-                        <VBox alignment="TOP_CENTER" prefHeight="366.0" prefWidth="868.0" styleClass="fonfoBlanco" stylesheets="@../CSS/EstilosProductos.css">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="933.0" styleClass="fondoGris" stylesheets="@../CSS/EstilosProductos.css">
-                                 <children>
-                                    <Label prefHeight="43.0" prefWidth="50.0">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="43.0" prefWidth="287.0" text="Nombre" wrapText="true">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="3.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label prefHeight="43.0" prefWidth="65.0" text="Cantidad">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label alignment="CENTER" prefHeight="43.0" prefWidth="130.0" text="Precio">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="43.0" prefWidth="245.0" text="Lugar">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="32.0" prefWidth="32.0">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="32.0" prefWidth="32.0">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="32.0" prefWidth="32.0">
-                                       <font>
-                                          <Font name="DejaVu Sans Condensed" size="14.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                              <VBox fx:id="layout" prefHeight="325.0" prefWidth="868.0" />
-                           </children></VBox>
+                        <VBox fx:id="layout" prefHeight="317.0" prefWidth="867.0" />
                      </content>
                   </ScrollPane>
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets left="40.0" right="40.0" />
                </VBox.margin>
             </HBox>
          </children>

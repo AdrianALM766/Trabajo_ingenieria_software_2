@@ -5,7 +5,6 @@ import Gestiones.GestionCliente;
 import Gestiones.GestionPersona;
 import Gestiones.Validaciones;
 import Modelos.Cliente;
-import Modelos.Persona;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -58,6 +57,7 @@ public class ModificarClienteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarTiposDocumento();
+        limitarCampos();
     }
 
     public void setStage(Stage stage) {
@@ -127,7 +127,7 @@ public class ModificarClienteController implements Initializable {
         gestionPersona = new GestionPersona();
         gestionCliente = new GestionCliente();
 
-        int idPersona = gestionPersona.obtenerIdPorDocumento(clienteActual.getDocumento());
+        int idPersona = gestionCliente.obtenerIdPorDocumento(clienteActual.getDocumento());
 
         if (idPersona == -1) {
             Dialogos.mostrarDialogoSimple("ERROR",
@@ -166,9 +166,6 @@ public class ModificarClienteController implements Initializable {
     }
 
     private void enviarDatos(Cliente cliente) {
-        gestionPersona = new GestionPersona();
-        int idTipo = gestionPersona.obtenerIdTipoDocumento(comBoxTipoDocumento.getValue());
-   
         cliente.setNombre1(txtPrimerNombre.getText());
         cliente.setNombre2(txtSegundoNombre.getText());
         cliente.setApellido1(txtPrimerApellido.getText());
@@ -178,7 +175,7 @@ public class ModificarClienteController implements Initializable {
         cliente.setDireccion(txtDireccion.getText());
         cliente.setCorreo(txtCorreo.getText());
         cliente.setDescripcion(txtDescripcion.getText());
-        cliente.setIdTipoDocumento(idTipo);
+        cliente.setTipoDocumento(comBoxTipoDocumento.getValue());
     }
 
 }

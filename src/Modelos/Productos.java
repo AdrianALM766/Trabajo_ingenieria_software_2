@@ -7,7 +7,16 @@ public class Productos {
     private double precio, costo;
     private int cantidad, cantidadMinima;
     private String fechaEntrada, categoria, nombre, lugar, precioMostrar, descripcion, costoMostrar;
+    private String imagen;
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+    
     public String getCostoMostrar() {
         return costoMostrar;
     }

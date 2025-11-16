@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -277,7 +275,7 @@ public class GestionesVarias {
                 + "El equipo de Inventario K1";
 
         // Enviar el correo con el asunto y el mensaje al destinatario
-        enviar.enviarCorreo(correo, asunto, mensaje);
+        enviar.enviarCorreoGmail(correo, asunto, mensaje);
 
         // Retornar el código generado (útil si se necesita en la lógica interna)
         return codigo;
@@ -306,17 +304,45 @@ public class GestionesVarias {
     }
 
     public static String nominacionPrecioColombiano(double precio) {
-        NumberFormat formatoColombiano = NumberFormat.getCurrencyInstance(
-                new Locale.Builder().setLanguage("es").setRegion("CO").build());
-        formatoColombiano.setMaximumFractionDigits(0);
+        NumberFormat formato = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        formato.setMaximumFractionDigits(0);
 
-        // Formatea normalmente
-        String formateado = formatoColombiano.format(precio);
+        String formateado = formato.format(precio);
 
-        // Quita el signo de moneda y los espacios
-        formateado = formateado.replace(" ", "");
+        // Elimina símbolo y espacios
+        formateado = formateado.replace("$", "")
+                .replace(" ", "");
 
-        return formateado;
+        String good = "$" + formateado;
+
+        return good.trim();
+    }
+
+    public static String nominacionPrecioColombianoLogica(double precio) {
+        // Convertimos a entero porque en Colombia normalmente no usamos decimales
+        long valor = (long) precio;
+
+        // Convertimos el número en string
+        String numero = String.valueOf(valor);
+
+        StringBuilder resultado = new StringBuilder();
+
+        int contador = 0;
+
+        // Recorremos de derecha a izquierda
+        for (int i = numero.length() - 1; i >= 0; i--) {
+            resultado.append(numero.charAt(i));
+            contador++;
+
+            // Cada 3 dígitos agregamos un punto (excepto al final)
+            if (contador == 3 && i != 0) {
+                resultado.append(".");
+                contador = 0;
+            }
+        }
+
+        // Invertimos porque lo construimos al revés
+        return "$"+resultado.reverse().toString();
     }
 
     public static int getCodigoVerificacion() {

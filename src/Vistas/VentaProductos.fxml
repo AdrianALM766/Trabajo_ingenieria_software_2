@@ -37,7 +37,7 @@
                         <Insets left="20.0" right="20.0" />
                      </VBox.margin>
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="200.0" promptText="Buscar Repuestos" stylesheets="@../CSS/EstilosVentasProductos.css">
+                        <TextField fx:id="txtBuscar" onKeyReleased="#buscar" prefHeight="40.0" prefWidth="200.0" promptText="Buscar Repuestos" stylesheets="@../CSS/EstilosVentasProductos.css">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -61,7 +61,7 @@
                      <children>
                         <HBox prefHeight="90.0" prefWidth="295.0">
                            <children>
-                              <Label fx:id="nombreProducto" alignment="CENTER" prefHeight="90.0" prefWidth="295.0" text="Bandas Boxer" textFill="WHITE" wrapText="true">
+                              <Label fx:id="nombreProducto" alignment="CENTER" prefHeight="90.0" prefWidth="295.0" text="Bandas Boxer" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="DejaVu Sans Condensed Bold" size="25.0" />
                                  </font>
@@ -91,7 +91,7 @@
                               <Insets left="5.0" right="5.0" />
                            </VBox.margin>
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="btn" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
+                              <Button mnemonicParsing="false" onMouseClicked="#restarCantidad" prefHeight="20.0" prefWidth="20.0" styleClass="btn" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
                                  <font>
                                     <Font />
                                  </font>
@@ -111,7 +111,7 @@
                                     <Font name="DejaVu Sans Condensed" size="15.0" />
                                  </font>
                               </TextField>
-                              <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="blanco" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
+                              <Button mnemonicParsing="false" onMouseClicked="#sumarCantidad" prefHeight="20.0" prefWidth="20.0" styleClass="blanco" stylesheets="@../CSS/EstilosVentasProductos.css" textFill="WHITE">
                                  <font>
                                     <Font />
                                  </font>
@@ -124,7 +124,7 @@
                                  </graphic>
                               </Button>
                               <Label prefHeight="18.0" prefWidth="40.0" />
-                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="130.0" styleClass="txtBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="100000">
+                              <Label fx:id="precio" alignment="CENTER" prefHeight="25.0" prefWidth="130.0" styleClass="txtBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="\$100000" textAlignment="CENTER">
                                  <font>
                                     <Font name="DejaVu Sans Condensed" size="15.0" />
                                  </font>
@@ -134,12 +134,24 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="280.0" stylesheets="@../CSS/EstilosVentasProductos.css">
+                           <styleClass>
+                              <String fx:value="blur-falso_sin_borde" />
+                              <String fx:value="sombra" />
+                           </styleClass>
                            <children>
-                              <Label prefHeight="25.0" prefWidth="76.0" text="Stock" />
+                              <Label prefHeight="18.0" prefWidth="142.0" text="Cantidad disponible:">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="DejaVu Sans Condensed Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="cantidadDisponible" prefHeight="18.0" prefWidth="105.0" />
                            </children>
                            <VBox.margin>
-                              <Insets left="5.0" right="5.0" top="10.0" />
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="sombra">
@@ -322,7 +334,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ScrollPane fx:id="scrollPane" prefHeight="488.0" prefWidth="832.0" styleClass="transparent" stylesheets="@../CSS/EstilosVentasProductos.css">
+                        <ScrollPane fx:id="scrollPane" prefHeight="488.0" prefWidth="845.0" styleClass="transparent" stylesheets="@../CSS/EstilosVentasProductos.css">
                            <content>
                               <GridPane fx:id="gridPane" prefHeight="190.0" prefWidth="204.0">
                                  <rowConstraints>

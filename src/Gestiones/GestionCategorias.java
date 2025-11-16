@@ -102,6 +102,26 @@ public class GestionCategorias {
         return id;
     }
 
+    public String obtenerNombrePorId(int id) {
+        String nombre = null;
+        String sql = "SELECT nombre_categoria FROM categoria WHERE id_categoria = ?";
+
+        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                nombre = rs.getString("nombre_categoria");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener nombre por ID: " + e.getMessage());
+        }
+
+        return nombre;
+    }
+
     public boolean eliminarCategoria(int idCategoria) {
         String sql = "DELETE FROM categoria WHERE id_categoria = ?";
 
@@ -114,11 +134,10 @@ public class GestionCategorias {
             return false;
         }
     }
-    
-    public boolean modificarCategoria (int idCategoria, Categorias c){
+
+    public boolean modificarCategoria(int idCategoria, Categorias c) {
         String sql = "UPDATE categoria SET nombre_categoria = ?, descripcion = ? WHERE id_categoria = ?";
-        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos();
-                PreparedStatement ps = conn.prepareCall(sql)) {
+        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareCall(sql)) {
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getDescripcion());
             ps.setInt(3, idCategoria);
@@ -128,7 +147,7 @@ public class GestionCategorias {
             System.out.println("Error al actualizar la categoría: " + e.getMessage());
             return false;
         }
-       
+
     }
 
 }

@@ -12,12 +12,16 @@ import java.util.List;
 public class GestionPersona {
 
     public boolean guardarPersona(Cliente cliente) {
-        String sql = "INSERT INTO persona (id_tipo_doc, documento, nombre1, nombre2, apellido1, apellido2, telefono, direccion, correo) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = """
+        INSERT INTO persona (id_tipo_doc, documento, nombre1, nombre2, apellido1, apellido2, telefono, direccion, correo) 
+        VALUES (
+            (SELECT id_tipo_doc FROM tipo_documento WHERE nombre_tipo = ?),?, ?, ?, ?, ?, ?, ?, ?)
+    """;
 
         try (Connection con = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, cliente.getIdTipoDocumento());
+            // El primer parámetro ahora es el nombre del tipo de documento
+            ps.setString(1, cliente.getTipoDocumento());
             ps.setInt(2, cliente.getDocumento());
             ps.setString(3, cliente.getNombre1());
             ps.setString(4, cliente.getNombre2());
@@ -26,43 +30,14 @@ public class GestionPersona {
             ps.setInt(7, cliente.getTelefono());
             ps.setString(8, cliente.getDireccion());
             ps.setString(9, cliente.getCorreo());
-            ps.executeUpdate();
 
+            ps.executeUpdate();
             return true;
 
         } catch (SQLException e) {
-            System.out.println("Error al guardar persona: " + e.getMessage());
+            System.out.println("❌ Error al guardar persona: " + e.getMessage());
         }
         return false;
-    }
-
-    public List<Persona> obtenerPersonasDesdeBD() {
-        List<Persona> lista = new ArrayList<>();
-
-        String sql = "SELECT * FROM persona";
-
-        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Persona persona = new Persona();
-                persona.setIdTipoDocumento(rs.getInt("id_tipo_doc"));
-                persona.setDocumento(rs.getInt("documento"));
-                persona.setNombre1(rs.getString("nombre1"));
-                persona.setNombre2(rs.getString("nombre2"));
-                persona.setApellido1(rs.getString("apellido1"));
-                persona.setApellido2(rs.getString("apellido2"));
-                persona.setTelefono(rs.getInt("telefono"));
-                persona.setDireccion(rs.getString("direccion"));
-                persona.setCorreo(rs.getString("correo"));
-
-                lista.add(persona);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error al obtener personas: " + e.getMessage());
-        }
-
-        return lista;
     }
 
     public List<String> obtenerTiposDocumentoDesdeBD() {
@@ -79,7 +54,6 @@ public class GestionPersona {
         } catch (SQLException e) {
             System.out.println("❌ Error al obtener tipos de documento: " + e.getMessage());
         }
-
         return listaTipos;
     }
 
@@ -110,7 +84,6 @@ public class GestionPersona {
             default:
                 return 3;
         }
-
     }
 
     public String obtenerTipoDocumentoPorID(int idTipo) {
@@ -122,7 +95,6 @@ public class GestionPersona {
             default:
                 return "Otro";
         }
-
     }
 
     public boolean eliminarPersona(int idPersona) {
@@ -139,19 +111,4 @@ public class GestionPersona {
             return false;
         }
     }
-
-    public int obtenerIdPorDocumento(int numeroDocumento) {
-        String sql = "SELECT id_persona FROM persona WHERE documento = ?";
-        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, numeroDocumento);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id_persona");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener ID de persona: " + e.getMessage());
-        }
-        return -1;
-    }
-
 }

@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +31,11 @@ import javafx.stage.Stage;
 public class ProductosController implements Initializable {
 
     private Stage stage;
+    private Listener<Productos> listener;
+    private Validaciones validaciones;
+    private GestionCategorias gestionCategorias;
+    private GestionProductos gestionProductos;
+    private List<Productos> listaOriginal;
 
     @FXML
     private VBox layout;
@@ -51,11 +57,8 @@ public class ProductosController implements Initializable {
     private DatePicker fechaIngresoProducto;
     @FXML
     private TextArea txtDescripcionProducto;
-
-    private Listener<Productos> listener;
-    private Validaciones validaciones;
-    private GestionCategorias gestionCategorias;
-    private GestionProductos gestionProductos;
+    @FXML
+    private TextField txtBuscar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,30 +67,12 @@ public class ProductosController implements Initializable {
         cargarCategorias();
         configurarListener();
         listarInformacionVBox();
+        //comboCategoria.setEditable(true);
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
 
-    }
-
-    public void listarInformacionVBox() {
-        gestionProductos = new GestionProductos();
-        List<Productos> productosList = gestionProductos.obtenerProductosDesdeBD();
-        layout.getChildren().clear();
-        int i = 1;
-        for (Productos producto : productosList) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vistas/ItemProductos.fxml"));
-                HBox hBox = fxmlLoader.load();
-
-                ItemProductosController itemController = fxmlLoader.getController();
-                itemController.setInfo(producto, listener, i++);
-                layout.getChildren().add(hBox);
-            } catch (IOException ex) {
-                System.out.println("Error al cargar ItemProductos.fxml: " + ex.getMessage());
-            }
-        }
     }
 
     private void cargarCategorias() {
@@ -130,7 +115,7 @@ public class ProductosController implements Initializable {
             p.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
             p.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(p.getPrecio()));
             p.setFechaEntrada(fechaIngresoProducto.getValue().toString());
-            p.setDescripcion(fecha);
+            p.setDescripcion(txtDescripcionProducto.getText());
 
             boolean exito = gestionProductos.agregarProducto(p);
 
@@ -245,6 +230,49 @@ public class ProductosController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void mostrarProductos(List<Productos> productosList) {
+        layout.getChildren().clear();
+        int i = 1;
+
+        for (Productos producto : productosList) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Vistas/ItemProductos.fxml"));
+                HBox hBox = fxmlLoader.load();
+
+                ItemProductosController itemController = fxmlLoader.getController();
+                itemController.setInfo(producto, listener, i++);
+                layout.getChildren().add(hBox);
+
+            } catch (IOException ex) {
+                System.out.println("Error al cargar ItemProductos.fxml: " + ex.getMessage());
+            }
+        }
+    }
+
+    public void listarInformacionVBox() {
+        gestionProductos = new GestionProductos();
+
+        listaOriginal = gestionProductos.obtenerProductosDesdeBD();
+
+        mostrarProductos(listaOriginal);
+    }
+
+    @FXML
+    private void buscar(KeyEvent event) {
+        String filtro = txtBuscar.getText().toLowerCase();
+
+        if (filtro.isEmpty()) {
+            mostrarProductos(listaOriginal);
+            return;
+        }
+
+        List<Productos> filtrados = listaOriginal.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(filtro))
+                .toList();
+
+        mostrarProductos(filtrados);
     }
 
 }

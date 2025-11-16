@@ -12,11 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/CategoriasController.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/ItemCategoriaController.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/GestionCategorias.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/ModificarCategoriaController.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/Validaciones.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/MotoController.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/ClienteController.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/GestionMoto.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/GestionCliente.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Modelos/Moto.java</file>
         </group>
     </open-files>
 </project-private>

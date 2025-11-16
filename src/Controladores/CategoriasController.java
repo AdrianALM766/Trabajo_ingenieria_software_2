@@ -45,7 +45,6 @@ public class CategoriasController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-
     }
 
     private void configurarListener() {
@@ -78,7 +77,7 @@ public class CategoriasController implements Initializable {
                 itemCategoria.settearInformacion(categorias, listener, i++);
                 layout.getChildren().add(hBox);
             } catch (Exception e) {
-                System.out.println("Error al cargar ItemProductos.fxml: " + e.getMessage());
+                System.out.println("Error al cargar ItemCategoria.fxml: " + e.getMessage());
             }
 
         }
@@ -103,7 +102,6 @@ public class CategoriasController implements Initializable {
                     "Ese nombre de categoria esta en uso porfavor utilice otro.", "../Imagenes/icon-error.png");
             return;
         }
-        try {
             Categorias c = new Categorias();
             c.setNombre(txtNombreCategoria.getText());
             c.setDescripcion(txtDescripcionCategoria.getText());
@@ -116,10 +114,6 @@ public class CategoriasController implements Initializable {
             Dialogos.mostrarDialogoSimple("Exito", "Categoria agregada correctamente.", "../Imagenes/icon-exito.png");
             listarInformacionVBox();
             limpiarCampos();
-        } catch (Exception e) {
-            System.out.println("Error en agregarProductos: " + e.getMessage());
-
-        }
     }
 
     private void eliminarCategoria(Categorias categoria) {
@@ -169,12 +163,11 @@ public class CategoriasController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private void limpiarCampos() {
-        txtDescripcionCategoria.setText("");
-        txtNombreCategoria.setText("");
+        txtDescripcionCategoria.clear();
+        txtNombreCategoria.clear();
     }
 
     private void tamañoCajaTexto() {

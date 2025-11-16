@@ -1,6 +1,7 @@
 package Controladores;
 
-import Main.App;
+
+import Gestiones.GestionesVarias;
 import Main.Listener;
 import Modelos.VentaProductos;
 import java.net.URL;
@@ -17,7 +18,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author kevin
  */
-public class ItemController implements Initializable {
+public class ItemVentaProductosController implements Initializable {
 
     @FXML
     private Label nombreLabel;
@@ -42,8 +43,8 @@ public class ItemController implements Initializable {
         this.listener = mylistener;
         nombreLabel.setText(productos.getNombre());
         //preciolabel.setText(App.SIGNODINERO + productos.getPrecio());
-        preciolabel.setText(productos.getPrecioMostrar());
-        Image image = new Image(getClass().getResourceAsStream(productos.getImgUrl()));
+        preciolabel.setText(GestionesVarias.nominacionPrecioColombianoLogica(productos.getPrecio()));
+        Image image = new Image(getClass().getResourceAsStream("/Imagenes/Productos/img-bandas-pulsar.png"));
         imagen.setImage(image);
     }
 

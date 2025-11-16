@@ -12,11 +12,11 @@ import java.util.Properties;
 
 public class EnviarCorreo {
 
-    GestionesVarias gestionar = new GestionesVarias();
+    private GestionesVarias gestionar = new GestionesVarias();
     String hora = gestionar.obtenerHora();
     private String[] info = gestionar.obtenerDireccionIp();
 
-    public void enviarCorreo(String destinatario, String asunto, String mensajeTexto) {
+    public void enviarCorreoGmail(String destinatario, String asunto, String mensajeTexto) {
 
         // 📌 Datos del remitente (definidos directamente en el código)
         final String remitente = "enviarcorreos2484@gmail.com"; // Correo Gmail desde el que se envía

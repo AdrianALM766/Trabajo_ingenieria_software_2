@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import Modelos.Productos;
+import Modelos.VentaProductos;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,34 @@ public class GestionProductos {
 
         } catch (SQLException e) {
             System.out.println("❌ Error al obtener productos: " + e.getMessage());
+        }
+
+        return lista;
+    }
+    
+    public List<VentaProductos> obtenerProductosParaVentaProductos() {
+        List<VentaProductos> lista = new ArrayList<>();
+
+        String sql = """
+            SELECT nombre, precio, url_imagen, cantidad FROM producto""";
+
+        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                VentaProductos p = new VentaProductos();
+
+                p.setNombre(rs.getString("nombre"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setImagen(rs.getString("url_imagen"));
+                p.setCantidad(rs.getInt("cantidad")); 
+
+                lista.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("❌ Error al obtener productos para venta: " + e.getMessage());
         }
 
         return lista;
@@ -148,7 +177,9 @@ public class GestionProductos {
     }
 
     public boolean modificarProducto(Productos p,int idProducto) {
-        String sql = "UPDATE producto SET nombre = ?, categoria = ?, lugar = ?, cantidad = ?, cantidadMinima = ?, costo = ?, costoMostrar = ?, precio = ?, precioMostrar = ?, fechaEntrada = ?, descripcion = ? WHERE id_producto = ?";
+        String sql = "UPDATE producto SET nombre = ?, categoria = ?, lugar = ?, cantidad = ?, "
+                + "cantidadMinima = ?, costo = ?, costoMostrar = ?, precio = ?, precioMostrar = ?, "
+                + "fechaEntrada = ?, descripcion = ? WHERE id_producto = ?";
 
         try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareStatement(sql)) {
 

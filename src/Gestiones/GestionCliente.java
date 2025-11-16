@@ -29,6 +29,31 @@ public class GestionCliente {
 
         return idPersona;
     }
+    
+    public int obtenerDocumentoPorIdCliente(int idCliente) {
+        int documento = -1;
+
+        String sql = "SELECT p.documento "
+                   + "FROM cliente c "
+                   + "INNER JOIN persona p ON c.id_persona = p.id_persona "
+                   + "WHERE c.id_cliente = ?";
+
+        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idCliente);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                documento = rs.getInt("documento");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener documento: " + e.getMessage());
+        }
+
+        return documento;
+    }
 
     public boolean guardarCliente(Cliente cliente) {
         String sql = "INSERT INTO cliente (id_persona, descripcion) VALUES (?, ?)";
@@ -73,7 +98,7 @@ public class GestionCliente {
             return filasAfectadas > 0; // ✅ Si al menos una fila se actualizó, todo bien
 
         } catch (SQLException e) {
-            System.out.println("⚠️ Error al modificar la descripción del cliente: " + e.getMessage());
+            System.out.println("Error al modificar la descripción del cliente: " + e.getMessage());
             return false;
         }
     }
@@ -144,7 +169,7 @@ public class GestionCliente {
                 Cliente cliente = new Cliente();
                 // Datos de persona
                 cliente.setIdPersona(rs.getInt("id_persona"));
-                cliente.setIdTipoDocumento(rs.getInt("id_tipo_doc"));
+                cliente.setTipoDocumento(rs.getString("id_tipo_doc"));
                 cliente.setDocumento(rs.getInt("documento"));
                 cliente.setNombre1(rs.getString("nombre1"));
                 cliente.setNombre2(rs.getString("nombre2"));
@@ -165,18 +190,21 @@ public class GestionCliente {
 
         return listaClientes;
     }
-    
-        public boolean modificarPersona(Cliente cliente, int idPersona) {
-        String sql = "UPDATE persona SET nombre1 = ?, nombre2 = ?, "
-                + "apellido1 = ?, apellido1 = ?, id_tipo_doc = ?, "
-                + "documento = ?, telefono = ?, direccion = ?, correo = ? WHERE id_persona = ?";
+
+    public boolean modificarPersona(Cliente cliente, int idPersona) {
+        String sql = """
+        UPDATE persona SET nombre1 = ?, nombre2 = ?, apellido1 = ?, apellido2 = ?, 
+            id_tipo_doc = (SELECT id_tipo_doc FROM tipo_documento WHERE nombre_tipo = ?),
+            documento = ?, telefono = ?, direccion = ?, correo = ? WHERE id_persona = ?
+        """;
+
         try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, cliente.getNombre1());
             ps.setString(2, cliente.getNombre2());
             ps.setString(3, cliente.getApellido1());
             ps.setString(4, cliente.getApellido2());
-            ps.setInt(5, cliente.getIdTipoDocumento());
+            ps.setString(5, cliente.getTipoDocumento());
             ps.setInt(6, cliente.getDocumento());
             ps.setInt(7, cliente.getTelefono());
             ps.setString(8, cliente.getDireccion());
@@ -187,8 +215,32 @@ public class GestionCliente {
             return filas > 0;
 
         } catch (SQLException e) {
-            System.out.println("Error al modificar persona: " + e.getMessage());
+            System.out.println("Error al modificar persona (cliente): " + e.getMessage());
             return false;
         }
+    }
+
+    public String obtenerPrimerNombreCliente(int idCliente) {
+        String nombre = "";
+
+        String sql = "SELECT p.nombre1 "
+                + "FROM cliente c "
+                + "INNER JOIN persona p ON c.id_persona = p.id_persona "
+                + "WHERE c.id_cliente = ?";
+
+        try (Connection con = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCliente);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                nombre = rs.getString("nombre1");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return nombre;
     }
 }

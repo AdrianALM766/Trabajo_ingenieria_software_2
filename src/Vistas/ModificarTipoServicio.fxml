@@ -86,7 +86,7 @@
                         <String fx:value="sombra" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnModificar" mnemonicParsing="false" onMouseClicked="#modifcarCategoria" prefHeight="48.0" prefWidth="136.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
+                  <Button fx:id="btnModificar" mnemonicParsing="false" onMouseClicked="#modifcar" prefHeight="48.0" prefWidth="136.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
                      <font>
                         <Font name="DejaVu Sans Condensed Bold" size="15.0" />
                      </font>

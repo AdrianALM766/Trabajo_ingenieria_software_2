@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="fondo" prefHeight="519.0" prefWidth="662.0" styleClass="fondo" stylesheets="@../CSS/EstilosModificarCategoria.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarClienteController">
+<AnchorPane id="AnchorPane" fx:id="fondo" prefHeight="454.0" prefWidth="525.0" styleClass="fondo" stylesheets="@../CSS/EstilosModificarCategoria.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.ModificarMotoController">
    <children>
-      <VBox prefHeight="519.0" prefWidth="658.0">
+      <VBox prefHeight="464.0" prefWidth="525.0">
          <children>
             <HBox prefHeight="44.0" prefWidth="317.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="44.0" prefWidth="641.0" text="Modificar Cliente">
+                  <Label alignment="CENTER" prefHeight="44.0" prefWidth="641.0" text="Modificar Moto">
                      <font>
                         <Font name="DejaVu Sans Condensed Bold" size="18.0" />
                      </font>
@@ -33,9 +33,9 @@
                   <Insets left="10.0" right="10.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <VBox prefHeight="61.0" prefWidth="140.0">
+                  <VBox prefHeight="61.0" prefWidth="92.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="103.0" text="Primer nombre">
+                        <Label prefHeight="19.0" prefWidth="103.0" text="Placa">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -43,16 +43,16 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtPrimerNombre" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
+                        <TextField fx:id="txtPlaca" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
                            <font>
                               <Font name="DejaVu Sans Condensed" size="13.0" />
                            </font>
                         </TextField>
                      </children>
                   </VBox>
-                  <VBox prefHeight="61.0" prefWidth="140.0">
+                  <VBox prefHeight="61.0" prefWidth="175.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="116.0" text="Segundo nombe">
+                        <Label prefHeight="19.0" prefWidth="116.0" text="Cilindraje">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -60,16 +60,12 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtSegundoNombre" prefHeight="30.0" prefWidth="100.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
-                           <font>
-                              <Font name="DejaVu Sans Condensed" size="13.0" />
-                           </font>
-                        </TextField>
+                        <ComboBox fx:id="comboCilindraje" prefHeight="30.0" prefWidth="176.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarProducto.css" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="61.0" prefWidth="140.0">
+                  <VBox prefHeight="61.0" prefWidth="175.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="112.0" text="Primer apellido">
+                        <Label prefHeight="19.0" prefWidth="112.0" text="Marca">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -77,37 +73,16 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtPrimerApellido" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
-                           <font>
-                              <Font name="DejaVu Sans Condensed" size="13.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="61.0" prefWidth="140.0">
-                     <children>
-                        <Label prefHeight="19.0" prefWidth="123.0" text="Segundo apellido">
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="DejaVu Sans Condensed Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtSegundoApellido" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
-                           <font>
-                              <Font name="DejaVu Sans Condensed" size="13.0" />
-                           </font>
-                        </TextField>
+                        <ComboBox fx:id="comboMarca" prefHeight="30.0" prefWidth="160.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarProducto.css" />
                      </children>
                   </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="61.0" prefWidth="297.0" spacing="15.0">
                <children>
-                  <VBox prefHeight="61.0" prefWidth="183.0">
+                  <VBox prefHeight="61.0" prefWidth="175.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="135.0" text="Tipo de documento">
+                        <Label prefHeight="19.0" prefWidth="135.0" text="Modelo">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -115,12 +90,12 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="comBoxTipoDocumento" prefHeight="30.0" prefWidth="180.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarProducto.css" />
+                        <ComboBox fx:id="comboModelo" prefHeight="30.0" prefWidth="180.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarProducto.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="61.0" prefWidth="140.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="90.0" text="Documento">
+                        <Label prefHeight="19.0" prefWidth="128.0" text="Modificar cliente" underline="true">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -128,16 +103,16 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtDocumento" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
+                        <TextField fx:id="txtCliente" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
                            <font>
                               <Font name="DejaVu Sans Condensed" size="13.0" />
                            </font>
                         </TextField>
                      </children>
                   </VBox>
-                  <VBox prefHeight="61.0" prefWidth="140.0">
+                  <VBox prefHeight="61.0" prefWidth="106.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="90.0" text="Telefono">
+                        <Label prefHeight="19.0" prefWidth="90.0" text="Color">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -145,7 +120,7 @@
                               <Font name="DejaVu Sans Condensed Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtTelefono" prefHeight="30.0" prefWidth="280.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
+                        <TextField fx:id="txtColor" prefHeight="30.0" prefWidth="280.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
                            <font>
                               <Font name="DejaVu Sans Condensed" size="13.0" />
                            </font>
@@ -157,47 +132,9 @@
                   <Insets bottom="5.0" left="10.0" right="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="61.0" prefWidth="297.0" spacing="15.0">
+            <HBox alignment="CENTER" prefHeight="125.0" prefWidth="658.0" spacing="15.0">
                <children>
-                  <VBox prefHeight="61.0" prefWidth="250.0">
-                     <children>
-                        <Label prefHeight="19.0" prefWidth="90.0" text="Direccion">
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="DejaVu Sans Condensed Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtDireccion" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
-                           <font>
-                              <Font name="DejaVu Sans Condensed" size="13.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="61.0" prefWidth="250.0">
-                     <children>
-                        <Label prefHeight="19.0" prefWidth="119.0" text="Correo">
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="DejaVu Sans Condensed Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtCorreo" prefHeight="30.0" prefWidth="93.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
-                           <font>
-                              <Font name="DejaVu Sans Condensed" size="13.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="125.0" prefWidth="658.0">
-               <children>
-                  <VBox prefHeight="125.0" prefWidth="297.0">
+                  <VBox prefHeight="125.0" prefWidth="264.0">
                      <children>
                         <Label prefHeight="19.0" prefWidth="99.0" text="Descripcion">
                            <VBox.margin>
@@ -214,6 +151,23 @@
                         </TextArea>
                      </children>
                   </VBox>
+                  <VBox prefHeight="125.0" prefWidth="96.0">
+                     <children>
+                        <Label prefHeight="19.0" prefWidth="119.0" text="Año">
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="DejaVu Sans Condensed Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ano" prefHeight="30.0" prefWidth="139.0" styleClass="blur-falso" stylesheets="@../CSS/EstilosModificarCategoria.css">
+                           <font>
+                              <Font name="DejaVu Sans Condensed" size="13.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="69.0" prefWidth="317.0" spacing="30.0">
@@ -227,7 +181,7 @@
                         <String fx:value="sombra" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnModificar" mnemonicParsing="false" onMouseClicked="#modifcar" prefHeight="48.0" prefWidth="181.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
+                  <Button mnemonicParsing="false" onMouseClicked="#modifcar" prefHeight="48.0" prefWidth="181.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
                      <font>
                         <Font name="DejaVu Sans Condensed Bold" size="15.0" />
                      </font>

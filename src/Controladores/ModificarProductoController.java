@@ -84,6 +84,7 @@ public class ModificarProductoController implements Initializable {
 
     public void settearCamposCategoria(Productos producto) {
         this.productoActual = producto;
+        gestionCategorias = new GestionCategorias();
 
         txtCantidad.setText(String.valueOf(productoActual.getCantidad()));
         txtCantidadMinima.setText(String.valueOf(productoActual.getCantidadMinima()));
@@ -92,7 +93,8 @@ public class ModificarProductoController implements Initializable {
         txtLugar.setText(productoActual.getLugar());
         txtNombre.setText(productoActual.getNombre());
         txtPrecio.setText(String.valueOf(productoActual.getPrecio()));
-        comboBoxCategoria.getSelectionModel().select(producto.getCategoria());
+        String nombreCategoria = gestionCategorias.obtenerNombrePorId(Integer.parseInt(productoActual.getCategoria()));
+        comboBoxCategoria.getSelectionModel().select(nombreCategoria);
         fechaEntrada.setValue(LocalDate.parse(productoActual.getFechaEntrada()));// yyyy-MM-dd
 
     }
@@ -150,6 +152,8 @@ public class ModificarProductoController implements Initializable {
     }
 
     private void enviarDatos(Productos productoActual) {
+        gestionCategorias = new GestionCategorias();
+        int idCategoria = gestionCategorias.obtenerIdPorNombre(comboBoxCategoria.getValue());
         productoActual.setCantidad(Integer.parseInt(txtCantidad.getText()));
         productoActual.setCantidadMinima(Integer.parseInt(txtCantidadMinima.getText()));
         productoActual.setCosto(Double.parseDouble(txtCosto.getText()));
@@ -159,7 +163,7 @@ public class ModificarProductoController implements Initializable {
         productoActual.setNombre(txtNombre.getText());
         productoActual.setPrecio(Double.parseDouble(txtPrecio.getText()));
         productoActual.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(Double.parseDouble(txtCosto.getText())));
-        productoActual.setCategoria(comboBoxCategoria.getValue());
+        productoActual.setCategoria(String.valueOf(idCategoria));
         productoActual.setFechaEntrada(fechaEntrada.getValue().toString());
 
         }

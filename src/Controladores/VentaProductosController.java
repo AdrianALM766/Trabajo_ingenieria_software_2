@@ -1,7 +1,9 @@
 package Controladores;
 
+import Gestiones.GestionProductos;
 import Gestiones.GestionesVarias;
 import Main.Listener;
+import Modelos.Productos;
 import Modelos.VentaProductos;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,8 +15,11 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -23,10 +28,11 @@ import javafx.stage.Stage;
 
 public class VentaProductosController implements Initializable {
 
-    private List<VentaProductos> productosList = new ArrayList<>();
+    private GestionProductos gestionProductos;
     private Listener listener;
     private Image image;
     private VentaProductos productos;
+    private List<VentaProductos> listaOriginal = new ArrayList<>();
 
     private Stage stage;
     @FXML
@@ -39,6 +45,12 @@ public class VentaProductosController implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Label precio;
+    @FXML
+    private Label cantidadDisponible;
+    @FXML
+    private TextField txtBuscar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,82 +62,39 @@ public class VentaProductosController implements Initializable {
 
     }
 
-    private List<VentaProductos> getInfo() {
-        List<VentaProductos> productosList = new ArrayList<>();
-        VentaProductos productos;
+    private void setCartaProductoElegido(VentaProductos p) {
 
-        productos = new VentaProductos();
-        productos.setNombre("Bandas pulsar");
-        productos.setPrecio(200000);
-        productos.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(100000));
-        productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("guaya pulsar");
-        productos.setPrecio(4000);
-        productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("Bandas xr");
-        productos.setPrecio(200000);
-        productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("guaya xr");
-        productos.setPrecio(4000);
-        productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("Bandas pulsar");
-        productos.setPrecio(20000);
-        productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("guaya pulsar");
-        productos.setPrecio(4000);
-        productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("Bandas xr");
-        productos.setPrecio(200000);
-        productos.setImgUrl("/Imagenes/Productos/img-bandas-pulsar.png");
-        productosList.add(productos); 
-        
-        productos = new VentaProductos();
-        productos.setNombre("guaya xr");
-        productos.setPrecio(4000);
-        productos.setImgUrl("/Imagenes/Productos/img-guaya-acelerador.png");
-        productosList.add(productos); 
-
-        return productosList;
-    }
-
-    private void setCartaProductoElegido(VentaProductos productos) {
-
-        nombreProducto.setText(productos.getNombre());
-        image = new Image(getClass().getResourceAsStream(productos.getImgUrl()));
-        imagenProducto.setImage(image);
+        nombreProducto.setText(p.getNombre());
+        precio.setText(GestionesVarias.nominacionPrecioColombianoLogica(p.getPrecio()));
+        cantidadDisponible.setText(String.valueOf(p.getCantidad()));
+        Image img = new Image(getClass().getResourceAsStream("/Imagenes/Productos/img-bandas-pulsar.png"));
+        imagenProducto.setImage(img);
 
     }
 
     private void listarProductosGrid() {
-
-        productosList.addAll(getInfo());
-        if (productosList.size() > 0) {
+        gestionProductos = new GestionProductos();
+        listaOriginal = gestionProductos.obtenerProductosParaVentaProductos();
+        List<VentaProductos> productosList = listaOriginal;
+        if (!productosList.isEmpty()) {
             setCartaProductoElegido(productosList.get(0));
             listener = new Listener<VentaProductos>() {
                 @Override
-                public void onClickListener(VentaProductos productos, String accion) {
-                    setCartaProductoElegido(productos);
+                public void onClickListener(VentaProductos p, String accion) {
+                    setCartaProductoElegido(p);
                 }
             };
         }
+
+        gridPane.getChildren().clear();
+
+        mostrarProductos(productosList);
+
+    }
+
+    private void mostrarProductos(List<VentaProductos> productosList) {
+
+        gridPane.getChildren().clear();
 
         int columna = 0, fila = 1;
 
@@ -135,34 +104,54 @@ public class VentaProductosController implements Initializable {
                 fxmlLoader.setLocation(getClass().getResource("/Vistas/ItemVentaProducto.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
-                ItemController itemController = fxmlLoader.getController();
+                ItemVentaProductosController itemController = fxmlLoader.getController();
                 itemController.setInfo(productosList.get(i), listener);
-  
+
                 if (columna == 5) {
                     columna = 0;
                     fila++;
                 }
 
-                gridPane.add(anchorPane, columna++, fila); //(child,columna,fila)
+                gridPane.add(anchorPane, columna++, fila);
 
-                //set grid width
                 gridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
                 gridPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 gridPane.setMaxWidth(Region.USE_PREF_SIZE);
 
-                //set grid height
                 gridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
                 gridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
                 gridPane.setMaxHeight(Region.USE_PREF_SIZE);
 
-                GridPane.setMargin(anchorPane, new Insets(10));
-
+                GridPane.setMargin(anchorPane, new Insets(8));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    @FXML
+    private void buscar(KeyEvent event) {
+
+        String filtro = txtBuscar.getText().toLowerCase();
+
+        if (filtro.isEmpty()) {
+            mostrarProductos(listaOriginal);
+            return;
+        }
+
+        List<VentaProductos> filtrados = listaOriginal.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(filtro))
+                .toList();
+
+        mostrarProductos(filtrados);
+    }
+
+    @FXML
+    private void restarCantidad(MouseEvent event) {
+    }
+
+    @FXML
+    private void sumarCantidad(MouseEvent event) {
+    }
 
 }

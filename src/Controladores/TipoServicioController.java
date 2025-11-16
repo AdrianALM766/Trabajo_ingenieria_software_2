@@ -50,7 +50,7 @@ public class TipoServicioController implements Initializable {
         listener = (tipoServicio, accion) -> {
             switch (accion) {
                 case "eliminar":
-                    eliminarCategoria(tipoServicio);
+                    eliminar(tipoServicio);
                     break;
                 case "modificar":
                     mostrarVentanaModificar(tipoServicio);
@@ -86,7 +86,7 @@ public class TipoServicioController implements Initializable {
 
     }
 
-    private void eliminarCategoria(TipoServicio tipoServicio) {
+    private void eliminar(TipoServicio tipoServicio) {
         gestionTipoServicio = new GestionTipoServicio();
         int idTipoServicio = gestionTipoServicio.obtenerIdPorNombre(tipoServicio.getNombre());
 

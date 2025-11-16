@@ -1,9 +1,9 @@
 package Controladores;
 
 import Gestiones.Dialogos;
-import Gestiones.GestionCategorias;
+import Gestiones.GestionEspecialidad;
 import Gestiones.Validaciones;
-import Modelos.Categorias;
+import Modelos.EspecialidadTecnico;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -15,22 +15,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ModificarCategoriaController implements Initializable {
+public class ModificarEspecialidadController implements Initializable {
 
     private Stage stage;
-    private Categorias categoriaActual;
-    private GestionCategorias gestionCategoria;
-    private CategoriasController categoriaController;
     private Validaciones validaciones;
-    
+    private EspecialidadTecnicoController especialidadController;
+    private GestionEspecialidad gestionEspecialidad;
+    private EspecialidadTecnico especialidadActual;
+
     @FXML
     private AnchorPane fondo;
-    @FXML
-    private Button btnCerrar;
     @FXML
     private TextField txtNombre;
     @FXML
     private TextArea txtDescripcion;
+    @FXML
+    private Button btnCerrar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,10 +41,14 @@ public class ModificarCategoriaController implements Initializable {
         this.stage = stage;
     }
 
-    public void settearCamposCategoria(Categorias categorias) {
-        this.categoriaActual = categorias;
-        txtDescripcion.setText(categorias.getDescripcion());
-        txtNombre.setText(categorias.getNombre());
+    public void setControllerPadre(EspecialidadTecnicoController aThis) {
+        this.especialidadController = aThis;
+    }
+
+    public void settearCamposEspecialidad(EspecialidadTecnico especialidad) {
+        this.especialidadActual = especialidad;
+        txtDescripcion.setText(especialidadActual.getDescripcion());
+        txtNombre.setText(especialidadActual.getNombre());
     }
 
     private void tamañoCajaTexto() {
@@ -60,48 +64,37 @@ public class ModificarCategoriaController implements Initializable {
     }
 
     @FXML
-    private void modifcarCategoria(MouseEvent event) {
-        gestionCategoria = new GestionCategorias();
+    private void modifcar(MouseEvent event) {
+        gestionEspecialidad = new GestionEspecialidad();
         
-        int idCategoria = gestionCategoria.obtenerIdPorNombre(categoriaActual.getNombre());
-
-        // Verificamos si se cambió el nombre
-        if (!categoriaActual.getNombre().equals(txtNombre.getText())) {
+        int idCategoria = gestionEspecialidad.obtenerIdPorNombre(especialidadActual.getNombre());
+        if (!especialidadActual.getNombre().equals(txtNombre.getText())) {
             // Si el nuevo nombre ya existe en otra categoría
-            if (gestionCategoria.existeCategoria(txtNombre.getText())) {
+            if (gestionEspecialidad.existeEspecialidad(txtNombre.getText())) {
                 Dialogos.mostrarDialogoSimple("ERROR",
-                        "Ya tienes una categoría con ese nombre en el inventario. Usa otro para continuar.",
+                        "Ya tienes una especialidad con ese nombre en el inventario. Usa otro para continuar.",
                         "../Imagenes/icon-error.png");
                 return;
             }
         }
-        // Actualizamos los datos del objeto
-        categoriaActual.setNombre(txtNombre.getText());
-        categoriaActual.setDescripcion(txtDescripcion.getText());
-
-        // Modificamos en la base de datos usando el ID antiguo
-        boolean exito = gestionCategoria.modificarCategoria(idCategoria, categoriaActual);
-
+        especialidadActual.setDescripcion(txtDescripcion.getText());
+        especialidadActual.setNombre(txtNombre.getText());
+        
+        boolean exito = gestionEspecialidad.modificarEspecialidad(idCategoria, especialidadActual);
         if (!exito) {
             Dialogos.mostrarDialogoSimple("ERROR",
                     "No se pudo modificar la categoría.\nOcurrió un error al intentar actualizar la información.",
                     "../Imagenes/icon-error.png");
             return;
         }
-
-        categoriaController.listarInformacionVBox();
+        especialidadController.listarInformacionVBox();
         // Cerramos la ventana
         cerrar();
-
     }
 
     private void cerrar() {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
         stage.close();
-    }
-
-    public void setControllerPadre(CategoriasController ca) {
-        this.categoriaController = ca;
     }
 
 }
