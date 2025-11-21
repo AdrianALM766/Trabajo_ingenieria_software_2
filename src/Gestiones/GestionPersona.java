@@ -27,7 +27,7 @@ public class GestionPersona {
             ps.setString(4, cliente.getNombre2());
             ps.setString(5, cliente.getApellido1());
             ps.setString(6, cliente.getApellido2());
-            ps.setInt(7, cliente.getTelefono());
+            ps.setString(7, cliente.getTelefono());
             ps.setString(8, cliente.getDireccion());
             ps.setString(9, cliente.getCorreo());
 

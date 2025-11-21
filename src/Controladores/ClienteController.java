@@ -66,10 +66,17 @@ public class ClienteController implements Initializable {
         validarTamañoTexto();
     }
 
+    /**
+     * Guarda la referencia del Stage principal para manejar ventanas.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Prepara el listener que recibe acciones desde cada item de cliente
+     * (eliminar, modificar, visualizar).
+     */
     private void configurarListener() {
         listener = (cliente, accion) -> {
             switch (accion) {
@@ -86,6 +93,11 @@ public class ClienteController implements Initializable {
         };
     }
 
+    /**
+     * LISTAR CLIENTES EN VBOX Carga todos los clientes desde la base de datos,
+     * limpia el contenedor VBox y agrega dinámicamente cada ItemCliente.fxml al
+     * listado.
+     */
     public void listarInformacionVBox() {
         gestionCliente = new GestionCliente();
         List<Cliente> clienteList = gestionCliente.obtenerClientesDesdeBD();
@@ -107,6 +119,10 @@ public class ClienteController implements Initializable {
         }
     }
 
+    /**
+     * CARGAR TIPOS DE DOCUMENTO Obtiene desde la BD todos los tipos de
+     * documento y los coloca en el ComboBox.
+     */
     private void cargarTipoDocumento() {
         gestionPersona = new GestionPersona();
         List<String> persona = gestionPersona.obtenerTiposDocumentoDesdeBD();
@@ -118,6 +134,10 @@ public class ClienteController implements Initializable {
         }
     }
 
+    /**
+     * ELIMINAR CLIENTE Elimina un cliente utilizando su número de documento.
+     * Solicita confirmación antes de borrar y actualiza la vista después.
+     */
     private void eliminarCliente(Persona persona) {
         gestionPersona = new GestionPersona();
         gestionCliente = new GestionCliente();
@@ -157,6 +177,11 @@ public class ClienteController implements Initializable {
                 "../Imagenes/icon-exito.png");
     }
 
+    /**
+     * MOSTRAR VENTANA MODIFICAR CLIENTE Abre una ventana modal para editar un
+     * cliente. Carga ModificarCliente.fxml, envía los datos completos y espera
+     * a que el usuario cierre la ventana.
+     */
     private void mostrarVentanaModificar(Cliente cliente) {
         gestionCliente = new GestionCliente();
         gestionPersona = new GestionPersona();
@@ -189,20 +214,16 @@ public class ClienteController implements Initializable {
         }
     }
 
-    @FXML
-    private void animacionBarraLateral(MouseEvent event) {
-    }
-
+    /**
+     * AGREGAR CLIENTE Valida los campos del formulario, crea la Persona y luego
+     * el Cliente. Finalmente limpia el formulario y actualiza la lista del
+     * VBox.
+     */
     @FXML
     private void agregarCliente(MouseEvent event) {
         gestionCliente = new GestionCliente();
 
-        if (txtNumeroDocumento.getText().trim().isEmpty()
-                || txtPrimerNombre.getText().trim().isEmpty()
-                || txtPrimerApellido.getText().trim().isEmpty()) {
-            Dialogos.mostrarDialogoSimple("Advertencia",
-                    "Por favor complete los campos obligatorios.",
-                    "../Imagenes/icon-advertencia.png");
+        if (!validarCamposCliente()) {
             return;
         }
 
@@ -220,21 +241,16 @@ public class ClienteController implements Initializable {
             return;
         }
 
-        int tel = 0;
-        if (!txtTelefono.getText().trim().isEmpty()) {
-            tel = Integer.parseInt(txtTelefono.getText());
-        }
-
         cliente = new Cliente();
         cliente.setTipoDocumento(comBoxTipoDocumento.getValue());
-        cliente.setDocumento(Integer.parseInt(txtNumeroDocumento.getText()));
-        cliente.setNombre1(txtPrimerNombre.getText());
-        cliente.setNombre2(txtSegundoNombre.getText());
-        cliente.setApellido1(txtPrimerApellido.getText());
-        cliente.setApellido2(txtSegundoApellido.getText());
-        cliente.setTelefono(tel);
+        cliente.setDocumento(Integer.parseInt(txtNumeroDocumento.getText().trim()));
+        cliente.setNombre1(txtPrimerNombre.getText().trim());
+        cliente.setNombre2(txtSegundoNombre.getText().trim());
+        cliente.setApellido1(txtPrimerApellido.getText().trim());
+        cliente.setApellido2(txtSegundoApellido.getText().trim());
+        cliente.setTelefono(txtTelefono.getText().trim());
         cliente.setDireccion(txtDireccion.getText());
-        cliente.setCorreo(txtCorreo.getText());
+        cliente.setCorreo(txtCorreo.getText().trim());
         cliente.setDescripcion(txtDescripcion.getText());
 
         // Primero guardamos la persona
@@ -277,6 +293,43 @@ public class ClienteController implements Initializable {
 
     }
 
+    private boolean validarCamposCliente() {
+
+        if (txtPrimerNombre.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("ERROR",
+                    "El primer nombre es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtPrimerApellido.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("ERROR",
+                    "El primer apellido es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (comBoxTipoDocumento.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("ERROR",
+                    "Debe seleccionar un tipo de documento.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtNumeroDocumento.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("ERROR",
+                    "El número de documento es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * VALIDAR TAMAÑO DE TEXTO Limita el número máximo de caracteres permitidos
+     * en cada TextField y TextArea.
+     */
     private void validarTamañoTexto() {
         validaciones = new Validaciones();
 
@@ -291,6 +344,10 @@ public class ClienteController implements Initializable {
         validaciones.limitarLongitudTextArea(txtDescripcion, 250);
     }
 
+    /**
+     * VALIDAR CAMPOS NUMÉRICOS Restringe los campos de documento y teléfono
+     * para que solo acepten números.
+     */
     private void validarNumeros() {
         validaciones = new Validaciones();
 

@@ -38,14 +38,14 @@ public class GestionMoto {
         return lista;
     }
 
-    public int obtenerIdMotoPorPlaca(int placa) {
+    public int obtenerIdMotoPorPlaca(String placa) {
         int idMoto = -1; // Valor por defecto si no se encuentra
 
         String sql = "SELECT id_moto FROM moto WHERE placa = ?";
 
         try (Connection con = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, placa);
+            ps.setString(1, placa);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -168,7 +168,7 @@ public class GestionMoto {
         String sql = "UPDATE moto SET "
                 + "placa = ?, "
                 + "id_marca = (SELECT id_marca FROM marca WHERE nombre_marca = ?), "
-                + "id_cilindraje = (SELECT id_cilindraje FROM cilindraje WHERE numero_cilindraje = ?), "
+                + "id_cilindraje = (SELECT id_cilindraje FROM cilindraje WHERE cilindraje = ?), "
                 + "id_modelo = (SELECT id_modelo FROM modelo WHERE nombre_modelo = ?), "
                 + "id_cliente = ?, "
                 + "color = ?, "

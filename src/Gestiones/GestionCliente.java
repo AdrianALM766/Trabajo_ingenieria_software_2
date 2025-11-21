@@ -127,7 +127,7 @@ public class GestionCliente {
                 cliente.setApellido1(rs.getString("apellido1"));
                 cliente.setApellido2(rs.getString("apellido2"));
                 cliente.setDocumento(rs.getInt("documento"));
-                cliente.setTelefono(Integer.parseInt(rs.getString("telefono")));
+                cliente.setTelefono(rs.getString("telefono"));
                 cliente.setDireccion(rs.getString("direccion"));
                 cliente.setCorreo(rs.getString("correo"));
 
@@ -175,7 +175,7 @@ public class GestionCliente {
                 cliente.setNombre2(rs.getString("nombre2"));
                 cliente.setApellido1(rs.getString("apellido1"));
                 cliente.setApellido2(rs.getString("apellido2"));
-                cliente.setTelefono(rs.getInt("telefono"));
+                cliente.setTelefono(rs.getString("telefono"));
                 cliente.setDireccion(rs.getString("direccion"));
                 cliente.setCorreo(rs.getString("correo"));
                 // Datos de cliente
@@ -206,7 +206,7 @@ public class GestionCliente {
             ps.setString(4, cliente.getApellido2());
             ps.setString(5, cliente.getTipoDocumento());
             ps.setInt(6, cliente.getDocumento());
-            ps.setInt(7, cliente.getTelefono());
+            ps.setString(7, cliente.getTelefono());
             ps.setString(8, cliente.getDireccion());
             ps.setString(9, cliente.getCorreo());
             ps.setInt(10, idPersona);

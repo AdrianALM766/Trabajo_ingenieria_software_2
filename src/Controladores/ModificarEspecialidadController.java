@@ -37,20 +37,38 @@ public class ModificarEspecialidadController implements Initializable {
         tamañoCajaTexto();
     }
 
+    /**
+     * SETEAR STAGE Guarda la referencia de la ventana actual para poder
+     * cerrarla más adelante.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * SETEAR CONTROLADOR PADRE Conecta este formulario con el controlador
+     * principal de especialidades. Permite refrescar la lista después de
+     * modificar la especialidad.
+     */
     public void setControllerPadre(EspecialidadTecnicoController aThis) {
         this.especialidadController = aThis;
     }
 
+    /**
+     * SETTEAR CAMPOS DE LA ESPECIALIDAD Recibe una especialidad desde la tabla
+     * y carga su nombre y descripción en los campos del formulario.
+     */
     public void settearCamposEspecialidad(EspecialidadTecnico especialidad) {
         this.especialidadActual = especialidad;
         txtDescripcion.setText(especialidadActual.getDescripcion());
         txtNombre.setText(especialidadActual.getNombre());
     }
 
+    /**
+     * CONFIGURAR TAMAÑO DE LOS CAMPOS Crea la instancia de Validaciones y
+     * establece límites de caracteres: - Nombre: máximo 45 - Descripción:
+     * máximo 250
+     */
     private void tamañoCajaTexto() {
         validaciones = new Validaciones();
 
@@ -63,10 +81,15 @@ public class ModificarEspecialidadController implements Initializable {
         cerrar();
     }
 
+    /**
+     * MODIFICAR ESPECIALIDAD Valida si el nuevo nombre ya existe, actualiza los
+     * valores de la especialidad, guarda los cambios en la base de datos y
+     * refresca la lista en el controlador padre.
+     */
     @FXML
     private void modifcar(MouseEvent event) {
         gestionEspecialidad = new GestionEspecialidad();
-        
+
         int idCategoria = gestionEspecialidad.obtenerIdPorNombre(especialidadActual.getNombre());
         if (!especialidadActual.getNombre().equals(txtNombre.getText())) {
             // Si el nuevo nombre ya existe en otra categoría
@@ -79,7 +102,7 @@ public class ModificarEspecialidadController implements Initializable {
         }
         especialidadActual.setDescripcion(txtDescripcion.getText());
         especialidadActual.setNombre(txtNombre.getText());
-        
+
         boolean exito = gestionEspecialidad.modificarEspecialidad(idCategoria, especialidadActual);
         if (!exito) {
             Dialogos.mostrarDialogoSimple("ERROR",

@@ -3,7 +3,16 @@ package Modelos;
 
 public class Persona {
     
-    private int idPersona, telefono, documento;
+    private int idPersona, documento;
+    private String nombre1, nombre2, apellido1, apellido2, direccion, correo, tipoDocumento, telefono;
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
     public String getTipoDocumento() {
         return tipoDocumento;
@@ -12,7 +21,6 @@ public class Persona {
     public void setTipoDocumento(String tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
     }
-    private String nombre1, nombre2, apellido1, apellido2, direccion, correo, tipoDocumento;
 
     public int getIdPersona() {
         return idPersona;
@@ -22,13 +30,6 @@ public class Persona {
         this.idPersona = idPersona;
     }
 
-    public int getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
-    }
 
     public int getDocumento() {
         return documento;

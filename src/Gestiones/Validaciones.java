@@ -4,8 +4,10 @@
  */
 package Gestiones;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -65,10 +67,26 @@ public class Validaciones {
             }
         }));
     }
-    
-    public boolean validarMInimoLetras(int totalLetras, int minimoLetras){
-        return  totalLetras < minimoLetras;
+
+    public boolean validarFecha(DatePicker fechaPicker) {
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaPicker.getValue().isAfter(hoy)) {
+            return false;
+        }
+
+        return true;
     }
     
+    /*public boolean validarEmpty(TextField text){
+        if (text.getText().trim() == null || text.getText().trim().isEmpty()) {
+            return false;
+        }
+        return true;
+    }*/
+
+    public boolean validarMInimoLetras(TextField textField, int totalLetras, int minimoLetras) {
+        return totalLetras < minimoLetras;
+    }
 
 }

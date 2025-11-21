@@ -18,7 +18,7 @@
          <children>
             <HBox prefHeight="44.0" prefWidth="317.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="44.0" prefWidth="641.0" text="Modificar Cliente">
+                  <Label fx:id="tituloVentana" alignment="CENTER" prefHeight="44.0" prefWidth="641.0" text="Modificar Cliente">
                      <font>
                         <Font name="DejaVu Sans Condensed Bold" size="18.0" />
                      </font>
@@ -227,7 +227,7 @@
                         <String fx:value="sombra" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="btnModificar" mnemonicParsing="false" onMouseClicked="#modifcar" prefHeight="48.0" prefWidth="181.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onMouseClicked="#modifcar" prefHeight="48.0" prefWidth="181.0" stylesheets="@../CSS/EstilosModificarCategoria.css" text="Modificar">
                      <font>
                         <Font name="DejaVu Sans Condensed Bold" size="15.0" />
                      </font>

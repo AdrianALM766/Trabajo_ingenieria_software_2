@@ -32,16 +32,17 @@
                <image>
                   <Image url="@../Imagenes/icon-twiter.png" />
                </image></ImageView>
-            <Label fx:id="lblUusarioDerecho" layoutX="90.0" layoutY="168.0" prefHeight="22.0" prefWidth="170.0" text="Label" />
+            <Label fx:id="lblUusarioDerecho" layoutX="90.0" layoutY="168.0" prefHeight="22.0" prefWidth="170.0" text="Usuario" />
             <TextField fx:id="txtUusarioDerecho" layoutX="90.0" layoutY="190.0" prefHeight="30.0" prefWidth="256.0" promptText="Usuario" />
-            <Label fx:id="lblCorreoDerecho" layoutX="90.0" layoutY="228.0" prefHeight="22.0" prefWidth="170.0" text="Label" />
+            <Label fx:id="lblCorreoDerecho" layoutX="90.0" layoutY="228.0" prefHeight="22.0" prefWidth="170.0" text="Correo" />
             <TextField fx:id="txtCorreoDerecho" layoutX="90.0" layoutY="248.0" prefHeight="30.0" prefWidth="256.0" promptText="Correo" />
-            <PasswordField fx:id="txtPassDerecho" layoutX="90.0" layoutY="299.0" prefHeight="30.0" prefWidth="256.0" promptText="Contraseña" />
+            <PasswordField fx:id="txtPassDerecho" layoutX="90.0" layoutY="307.0" prefHeight="30.0" prefWidth="256.0" promptText="Contraseña" />
             <Label fx:id="lblOlvidoPassDerecho" layoutX="90.0" layoutY="337.0" prefHeight="36.0" prefWidth="256.0" style="-fx-font-family: Segoe UI; -fx-text-fill: black; -fx-alignment: center;" text="¿Olvido su contraseña?" textAlignment="RIGHT" wrapText="true" />
             <Button fx:id="btnRegistrarDerecho" layoutX="169.0" layoutY="373.0" mnemonicParsing="false" onMouseClicked="#iniciarSesionRegistrarse" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #024059; -fx-text-fill: white; -fx-background-radius: 10;" text="Registrarse">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
+            <Label fx:id="lblContraseña" layoutX="90.0" layoutY="286.0" prefHeight="22.0" prefWidth="170.0" text="Contraseña" />
             </children>
         </Pane>
         <Pane fx:id="panelIzquierdo" prefHeight="500.0" prefWidth="425.0" style="-fx-background-color: #024059;">

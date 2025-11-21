@@ -61,11 +61,20 @@ public class ModificarProductoController implements Initializable {
         cargarCategorias();
     }
 
+    /**
+     * SETEAR STAGE Guarda la referencia de la ventana actual para poder
+     * cerrarla desde el controlador.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
 
     }
 
+    /**
+     * CONFIGURAR TAMAÑO DE CAMPOS Aplica validaciones para limitar la cantidad
+     * máxima de caracteres en: nombre, precio, costo, cantidad, cantidad
+     * mínima, lugar y descripción.
+     */
     private void tamañoCajaTexto() {
         validaciones = new Validaciones();
 
@@ -78,6 +87,10 @@ public class ModificarProductoController implements Initializable {
         validaciones.limitarLongitudTextArea(txtDescripcion, 250);
     }
 
+    /**
+     * SETEAR CONTROLADOR PADRE Guarda la referencia del controlador principal
+     * de productos para refrescar la lista después de modificar un producto.
+     */
     public void setControllerPadre(ProductosController aThis) {
         this.productosControler = aThis;
     }
@@ -99,6 +112,10 @@ public class ModificarProductoController implements Initializable {
 
     }
 
+    /**
+     * CARGAR CATEGORÍAS Obtiene desde la base de datos todos los nombres de
+     * categorías disponibles y los coloca en el ComboBox.
+     */
     private void cargarCategorias() {
         gestionCategorias = new GestionCategorias();
         List<String> categorias = gestionCategorias.obtenerCategoriasDesdeBD();
@@ -116,9 +133,20 @@ public class ModificarProductoController implements Initializable {
         cerrar();
     }
 
+    /**
+     * MODIFICAR PRODUCTO - Valida todos los campos del formulario. - Revisa si
+     * el nombre fue cambiado. - Verifica que el nuevo nombre no esté repetido.
+     * - Envía al productoActual los nuevos valores del formulario. - Intenta
+     * actualizar los datos en la base de datos. - Refresca la lista del
+     * controlador principal. - Cierra la ventana.
+     */
     @FXML
     private void modifcarCategoria(MouseEvent event) {
         gestionProductos = new GestionProductos();
+
+        if (!validarCampos()) {
+            return;
+        }
 
         int idProducto = gestionProductos.obtenerIdPorNombre(productoActual.getNombre());
 
@@ -133,7 +161,7 @@ public class ModificarProductoController implements Initializable {
         }
         enviarDatos(productoActual);
         boolean exito = gestionProductos.modificarProducto(productoActual, idProducto);
-        
+
         if (!exito) {
             Dialogos.mostrarDialogoSimple("ERROR",
                     "No se pudo modificar el producto.\nOcurrió un error al intentar actualizar la información.",
@@ -146,6 +174,64 @@ public class ModificarProductoController implements Initializable {
 
     }
 
+    private boolean validarCampos() {
+        if (txtNombre.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El nombre es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (comboBoxCategoria.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("Error", "❌Debes seleccionar una categoría.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtLugar.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El lugar es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCantidad.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La cantidad es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCantidadMinima.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La cantidad mínima es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCosto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El costo es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtPrecio.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El precio es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (fechaEntrada.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La fecha es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+        validaciones = new Validaciones();
+        if (!validaciones.validarFecha(fechaEntrada)) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La fecha no puede ser superior a hoy.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        return true;
+    }
+
     private void cerrar() {
         Stage stage = (Stage) btnCerrar.getScene().getWindow();
         stage.close();
@@ -154,18 +240,18 @@ public class ModificarProductoController implements Initializable {
     private void enviarDatos(Productos productoActual) {
         gestionCategorias = new GestionCategorias();
         int idCategoria = gestionCategorias.obtenerIdPorNombre(comboBoxCategoria.getValue());
-        productoActual.setCantidad(Integer.parseInt(txtCantidad.getText()));
-        productoActual.setCantidadMinima(Integer.parseInt(txtCantidadMinima.getText()));
-        productoActual.setCosto(Double.parseDouble(txtCosto.getText()));
+        productoActual.setCantidad(Integer.parseInt(txtCantidad.getText().trim()));
+        productoActual.setCantidadMinima(Integer.parseInt(txtCantidadMinima.getText().trim()));
+        productoActual.setCosto(Double.parseDouble(txtCosto.getText().trim()));
         productoActual.setCostoMostrar(GestionesVarias.nominacionPrecioColombiano(Double.parseDouble(txtCosto.getText())));
         productoActual.setDescripcion(txtDescripcion.getText());
         productoActual.setLugar(txtLugar.getText());
         productoActual.setNombre(txtNombre.getText());
-        productoActual.setPrecio(Double.parseDouble(txtPrecio.getText()));
+        productoActual.setPrecio(Double.parseDouble(txtPrecio.getText().trim()));
         productoActual.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(Double.parseDouble(txtCosto.getText())));
         productoActual.setCategoria(String.valueOf(idCategoria));
         productoActual.setFechaEntrada(fechaEntrada.getValue().toString());
 
-        }
+    }
 
 }

@@ -6,7 +6,6 @@ import Gestiones.GestionPersona;
 import Gestiones.GestionTecnico;
 import Gestiones.Validaciones;
 import Main.Listener;
-import Modelos.Cliente;
 import Modelos.Tecnico;
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +34,7 @@ public class TecnicoController implements Initializable {
     private GestionEspecialidad gestionEspecialidad;
     private GestionPersona gestionPersona;
     private Tecnico tecnico;
-    
+
     @FXML
     private TextField txtPrimerNombre;
     @FXML
@@ -73,10 +72,18 @@ public class TecnicoController implements Initializable {
         validarTamañoTexto();
     }
 
+    /**
+     * SET STAGE - Asigna la ventana principal al controlador
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * CONFIGURAR LISTENER - Define acciones posibles sobre los técnicos
+     * (eliminar, modificar, visualizar) - Asocia la acción correspondiente al
+     * listener
+     */
     private void configurarListener() {
         listener = (tecnico, accion) -> {
             switch (accion) {
@@ -93,6 +100,11 @@ public class TecnicoController implements Initializable {
         };
     }
 
+    /**
+     * LISTAR INFORMACION EN VBOX - Obtiene todos los técnicos desde la base de
+     * datos - Limpia el VBox principal - Crea un ItemTecnico.fxml por cada
+     * técnico - Asocia listener a cada item - Agrega los HBox al VBox
+     */
     public void listarInformacionVBox() {
         gestionTecnico = new GestionTecnico();
         List<Tecnico> tecnicoList = gestionTecnico.obtenerTecnicosDesdeBD();
@@ -112,8 +124,13 @@ public class TecnicoController implements Initializable {
             }
         }
     }
-    
-        private void cargarEspecialidad() {
+
+    /**
+     * CARGAR ESPECIALIDAD - Obtiene especialidades desde la base de datos -
+     * Llena el ComboBox de especialidades - Muestra mensaje si no hay
+     * especialidades
+     */
+    private void cargarEspecialidad() {
         gestionEspecialidad = new GestionEspecialidad();
         List<String> especialiList = gestionEspecialidad.obtenerEspecialidadesDesdeBD();
 
@@ -124,6 +141,11 @@ public class TecnicoController implements Initializable {
         }
     }
 
+    /**
+     * CARGAR TIPO DE DOCUMENTO - Obtiene tipos de documento desde la base de
+     * datos - Llena el ComboBox correspondiente - Muestra mensaje si no hay
+     * resultados
+     */
     private void cargarTipoDocumento() {
         gestionPersona = new GestionPersona();
         List<String> persona = gestionPersona.obtenerTiposDocumentoDesdeBD();
@@ -135,6 +157,12 @@ public class TecnicoController implements Initializable {
         }
     }
 
+    /**
+     * ELIMINAR TECNICO - Obtiene el ID de la persona asociada al técnico -
+     * Solicita confirmación al usuario - Elimina la persona de la base de datos
+     * si confirma - Refresca la lista de técnicos en el VBox - Muestra mensajes
+     * de éxito o error
+     */
     private void eliminar(Tecnico tecnico) {
         gestionPersona = new GestionPersona();
         gestionTecnico = new GestionTecnico();
@@ -170,13 +198,19 @@ public class TecnicoController implements Initializable {
                 "../Imagenes/icon-exito.png");
     }
 
+    /**
+     * MOSTRAR VENTANA MODIFICAR - Obtiene ID de persona y técnico - Carga la
+     * ventana de modificación con los datos del técnico - Envía la información
+     * completa al formulario - Configura la ventana como modal y no
+     * redimensionable - Muestra la ventana y espera hasta que se cierre
+     */
     private void mostrarVentanaModificar(Tecnico tecnico) {
         gestionPersona = new GestionPersona();
         gestionTecnico = new GestionTecnico();
-        
+
         int idPersona = gestionTecnico.obtenerIdPersonaPorDocumento(tecnico.getDocumento());
         int idTecnico = gestionTecnico.obtenerIdTecnicoPorIdPersona(idPersona);
-        
+
         try {
             // Cargar la vista del formulario de modificación
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/ModificarTecnico.fxml"));
@@ -203,21 +237,19 @@ public class TecnicoController implements Initializable {
         }
     }
 
-    @FXML
-    private void animacionBarraLateral(MouseEvent event) {
-    }
-
+    /**
+     * AGREGAR TECNICO - Valida que todos los campos estén correctos - Verifica
+     * que el documento no exista - Crea objeto Tecnico y llena sus datos -
+     * Guarda la persona en la base de datos - Obtiene el ID recién creado -
+     * Guarda los datos del técnico en la base de datos - Refresca la lista de
+     * técnicos y limpia los campos - Muestra mensaje de éxito o error
+     */
     @FXML
     private void agregar(MouseEvent event) {
         gestionTecnico = new GestionTecnico();
         gestionPersona = new GestionPersona();
 
-        if (txtNumeroDocumento.getText().trim().isEmpty()
-                || txtPrimerNombre.getText().trim().isEmpty()
-                || txtPrimerApellido.getText().trim().isEmpty()) {
-            Dialogos.mostrarDialogoSimple("Advertencia",
-                    "Por favor complete los campos obligatorios.",
-                    "../Imagenes/icon-advertencia.png");
+        if (!validarCampos()) {
             return;
         }
 
@@ -233,20 +265,17 @@ public class TecnicoController implements Initializable {
                     "../Imagenes/icon-error.png");
             return;
         }
-        int tel = 0;
-        if (!txtTelefono.getText().trim().isEmpty()) {
-            tel = Integer.parseInt(txtTelefono.getText());
-        }
+
         tecnico = new Tecnico();
         tecnico.setTipoDocumento(comBoxTipoDocumento.getValue());
-        tecnico.setDocumento(Integer.parseInt(txtNumeroDocumento.getText()));
-        tecnico.setNombre1(txtPrimerNombre.getText());
-        tecnico.setNombre2(txtSegundoNombre.getText());
-        tecnico.setApellido1(txtPrimerApellido.getText());
-        tecnico.setApellido2(txtSegundoApellido.getText());
-        tecnico.setTelefono(tel);
+        tecnico.setDocumento(Integer.parseInt(txtNumeroDocumento.getText().trim()));
+        tecnico.setNombre1(txtPrimerNombre.getText().trim());
+        tecnico.setNombre2(txtSegundoNombre.getText().trim());
+        tecnico.setApellido1(txtPrimerApellido.getText().trim());
+        tecnico.setApellido2(txtSegundoApellido.getText().trim());
+        tecnico.setTelefono(txtTelefono.getText().trim());
         tecnico.setDireccion(txtDireccion.getText());
-        tecnico.setCorreo(txtCorreo.getText());
+        tecnico.setCorreo(txtCorreo.getText().trim());
 
         boolean personaInsertada = gestionTecnico.guardarPersona(tecnico);
         if (!personaInsertada) {
@@ -264,9 +293,9 @@ public class TecnicoController implements Initializable {
         }
         tecnico.setIdPersona(idPersona);
         tecnico.setFechaContratacion(fechaContratacion.getValue().toString());
-        tecnico.setPorcentaje(Integer.parseInt(txtPorcentaje.getText()));
+        tecnico.setPorcentaje(Integer.parseInt(txtPorcentaje.getText().trim()));
         tecnico.setTipoEspecialidad(comboBoxEspecialidad.getValue());
-        
+
         boolean tecnicoInsertado = gestionTecnico.guardarTecnico(tecnico);
         if (!tecnicoInsertado) {
             Dialogos.mostrarDialogoSimple("Error",
@@ -281,8 +310,70 @@ public class TecnicoController implements Initializable {
         limpiarCampos();
         listarInformacionVBox();
     }
-    
-    private void limpiarCampos(){
+
+    private boolean validarCampos() {
+        validaciones = new Validaciones();
+
+        if (txtPrimerNombre.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "El primer nombre es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtPrimerApellido.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "El primer apellido es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (comBoxTipoDocumento.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "Debe seleccionar un tipo de documento.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtNumeroDocumento.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "El documento es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (comboBoxEspecialidad.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "Debe seleccionar una especialidad.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtPorcentaje.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "El porcentaje es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (fechaContratacion.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "La fecha de contratación es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (!validaciones.validarFecha(fechaContratacion)) {
+            Dialogos.mostrarDialogoSimple("VALIDACIÓN",
+                    "La fecha no puede ser de hoy.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void limpiarCampos() {
         txtCorreo.clear();
         txtDireccion.clear();
         txtNumeroDocumento.clear();
@@ -297,14 +388,19 @@ public class TecnicoController implements Initializable {
         comboBoxEspecialidad.getSelectionModel().clearSelection();
     }
 
+    /*Valida que solo entren numeros*/
     private void validarNumeros() {
-       validaciones = new Validaciones();
+        validaciones = new Validaciones();
 
         validaciones.validacionNumeros(txtNumeroDocumento);
         validaciones.validacionNumeros(txtTelefono);
         validaciones.validacionNumeros(txtPorcentaje);
     }
 
+    /**
+     * VALIDAR TAMAÑO DE TEXTO - Limita la longitud máxima de todos los campos
+     * de texto - Asegura consistencia en la entrada de datos
+     */
     private void validarTamañoTexto() {
         validaciones = new Validaciones();
 

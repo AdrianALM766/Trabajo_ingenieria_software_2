@@ -1,7 +1,7 @@
 
 package Modelos;
 
-public class Cliente extends Persona{
+public class Cliente extends  Persona{
     private String descripcion;
 
     public String getDescripcion() {
@@ -11,6 +11,5 @@ public class Cliente extends Persona{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
     
 }

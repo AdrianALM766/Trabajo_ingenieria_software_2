@@ -70,11 +70,19 @@ public class ProductosController implements Initializable {
         //comboCategoria.setEditable(true);
     }
 
+    /**
+     * SET STAGE - Asigna la ventana principal al controlador
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
 
     }
 
+    /**
+     * CARGAR CATEGORIAS - Obtiene categorías desde la base de datos - Llena el
+     * ComboBox con las categorías disponibles - Muestra mensaje si no se
+     * encuentran categorías
+     */
     private void cargarCategorias() {
         gestionCategorias = new GestionCategorias();
         List<String> categorias = gestionCategorias.obtenerCategoriasDesdeBD();
@@ -86,12 +94,19 @@ public class ProductosController implements Initializable {
         }
     }
 
-    @FXML
-    private void animacionBarraLateral(MouseEvent event) {
-    }
-
+    /**
+     * AGREGAR PRODUCTO - Valida que todos los campos estén correctos - Verifica
+     * que cantidades y precios sean mayores a cero - Crea un objeto Productos y
+     * llena sus datos - Guarda el producto en la base de datos - Refresca la
+     * lista de productos en el VBox - Limpia los campos del formulario -
+     * Muestra mensaje de éxito o error
+     */
     @FXML
     private void agregarProductos(MouseEvent event) {
+
+        if (!validarCampos()) {
+            return;
+        }
 
         if (parseInt(txtCantidadMinima.getText()) < 0 || parseInt(txtCantidadProducto.getText()) < 0
                 || Boolean.parseBoolean(txtCostoProducto.getText()) || Boolean.parseBoolean(txtPrecioProducto.getText())) {
@@ -108,11 +123,11 @@ public class ProductosController implements Initializable {
             p.setNombre(txtNombreProducto.getText());
             p.setCategoria(comboCategoria.getValue());
             p.setLugar(txtLugarProducto.getText());
-            p.setCantidad(parseInt(txtCantidadProducto.getText()));
-            p.setCantidadMinima(parseInt(txtCantidadMinima.getText()));
-            p.setCosto(Double.parseDouble(txtCostoProducto.getText()));
+            p.setCantidad(parseInt(txtCantidadProducto.getText().trim()));
+            p.setCantidadMinima(parseInt(txtCantidadMinima.getText().trim()));
+            p.setCosto(Double.parseDouble(txtCostoProducto.getText().trim()));
             p.setCostoMostrar(GestionesVarias.nominacionPrecioColombiano(p.getCosto()));
-            p.setPrecio(Double.parseDouble(txtPrecioProducto.getText()));
+            p.setPrecio(Double.parseDouble(txtPrecioProducto.getText().trim()));
             p.setPrecioMostrar(GestionesVarias.nominacionPrecioColombiano(p.getPrecio()));
             p.setFechaEntrada(fechaIngresoProducto.getValue().toString());
             p.setDescripcion(txtDescripcionProducto.getText());
@@ -144,6 +159,70 @@ public class ProductosController implements Initializable {
         fechaIngresoProducto.setValue(null);
     }
 
+    public boolean validarCampos() {
+
+        if (txtNombreProducto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El nombre es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (comboCategoria.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("Error", "❌Debes seleccionar una categoría.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtLugarProducto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El lugar es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCantidadProducto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La cantidad es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCantidadMinima.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La cantidad mínima es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtCostoProducto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El costo es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (txtPrecioProducto.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("Error", "❌El precio es obligatorio.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        if (fechaIngresoProducto.getValue() == null) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La fecha es obligatoria.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+        validaciones = new Validaciones();
+        if (!validaciones.validarFecha(fechaIngresoProducto)) {
+            Dialogos.mostrarDialogoSimple("Error", "❌La fecha no puede ser superior a hoy.",
+                    "../Imagenes/icon-error.png");
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * CONFIGURAR LISTENER - Configura las acciones posibles sobre los productos
+     * (eliminar, modificar, visualizar) - Asocia la acción correspondiente al
+     * listener
+     */
     private void configurarListener() {
         listener = (producto, accion) -> {
             switch (accion) {
@@ -160,6 +239,12 @@ public class ProductosController implements Initializable {
         };
     }
 
+    /**
+     * ELIMINAR PRODUCTO - Obtiene el ID del producto en la base de datos - Pide
+     * confirmación al usuario - Elimina el producto si la confirmación es
+     * positiva - Refresca la lista de productos en el VBox - Muestra mensajes
+     * de éxito o error
+     */
     private void eliminarProducto(Productos producto) {
         gestionProductos = new GestionProductos();
         // Buscar el ID en la BD por nombre
@@ -187,6 +272,10 @@ public class ProductosController implements Initializable {
         Dialogos.mostrarDialogoSimple("Exito", "El producto fue eliminado del inventario sin inconvenientes.", "../Imagenes/icon-exito.png");
     }
 
+    /**
+     * TAMAÑO DE CAJA DE TEXTO - Limita la longitud máxima de cada campo de
+     * texto - Asegura consistencia en la entrada de datos
+     */
     private void tamañoCajaTexto() {
         validaciones = new Validaciones();
 
@@ -198,6 +287,9 @@ public class ProductosController implements Initializable {
         validaciones.limitarLongitud(txtCostoProducto, 15);
     }
 
+    /*
+    Valida que solo entren numeros
+     */
     private void validarNumeros() {
         validaciones = new Validaciones();
 
@@ -207,6 +299,12 @@ public class ProductosController implements Initializable {
         validaciones.validacionNumeros(txtPrecioProducto);
     }
 
+    /**
+     * MOSTRAR VENTANA MODIFICAR - Obtiene el ID del producto a modificar -
+     * Carga la ventana de modificación con los datos del producto - Configura
+     * la ventana para bloquear la anterior y no permitir redimensionar -
+     * Muestra la ventana y espera hasta que se cierre
+     */
     private void mostrarVentanaModificar(Productos producto) {
         gestionProductos = new GestionProductos();
         int idProducto = gestionProductos.obtenerIdPorNombre(producto.getNombre());
@@ -232,6 +330,11 @@ public class ProductosController implements Initializable {
         }
     }
 
+    /**
+     * MOSTRAR PRODUCTOS - Limpia el VBox principal - Itera la lista de
+     * productos - Carga un ItemProductos.fxml para cada producto - Asocia el
+     * listener a cada item - Agrega los HBox generados al VBox
+     */
     private void mostrarProductos(List<Productos> productosList) {
         layout.getChildren().clear();
         int i = 1;
@@ -251,6 +354,10 @@ public class ProductosController implements Initializable {
         }
     }
 
+    /**
+     * LISTAR INFORMACION EN VBOX - Obtiene todos los productos desde la base de
+     * datos - Llama a mostrarProductos para renderizarlos
+     */
     public void listarInformacionVBox() {
         gestionProductos = new GestionProductos();
 
@@ -259,6 +366,11 @@ public class ProductosController implements Initializable {
         mostrarProductos(listaOriginal);
     }
 
+    /**
+     * BUSCAR PRODUCTOS - Obtiene el texto del campo de búsqueda - Filtra la
+     * lista original de productos según coincidencia - Actualiza el VBox con
+     * los productos filtrados
+     */
     @FXML
     private void buscar(KeyEvent event) {
         String filtro = txtBuscar.getText().toLowerCase();

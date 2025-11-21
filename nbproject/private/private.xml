@@ -12,11 +12,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/MotoController.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/ClienteController.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/GestionMoto.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Gestiones/GestionCliente.java</file>
-            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Modelos/Moto.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Controladores/BarraLateralPrincipalController.java</file>
+            <file>file:/home/kevin/Documentos/Java/AppInventario/src/Main/App.java</file>
         </group>
     </open-files>
 </project-private>

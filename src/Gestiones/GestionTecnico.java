@@ -31,6 +31,32 @@ public class GestionTecnico {
         return idPersona;
     }
 
+    /**
+     * Obtiene el documento de un técnico por su ID
+     */
+    public int obtenerDocumentoPorIdTecnico(int idTecnico) {
+        String sql = """
+        SELECT p.documento 
+        FROM tecnico t
+        INNER JOIN persona p ON t.id_persona = p.id_persona
+        WHERE t.id_tecnico = ?
+    """;
+
+        try (Connection conn = ConexionBaseDatos.coneccionTallerMotos(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idTecnico);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("documento");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("⚠️ Error al obtener documento del técnico: " + e.getMessage());
+        }
+        return -1;
+    }
+
     public boolean guardarTecnico(Tecnico tecnico) {
         String sql = "INSERT INTO tecnico (id_persona, porcentaje, id_tipo_especialidad, fecha_contratacion) "
                 + "VALUES (?, ?, (SELECT id_tipo_especialidad FROM especialidad_tecnico WHERE nombre_especialidad = ?), ?)";
@@ -122,7 +148,7 @@ public class GestionTecnico {
                 tecnico.setApellido1(rs.getString("apellido1"));
                 tecnico.setApellido2(rs.getString("apellido2"));
                 tecnico.setDocumento(rs.getInt("documento"));
-                tecnico.setTelefono(rs.getInt("telefono"));
+                tecnico.setTelefono(rs.getString("telefono"));
                 tecnico.setDireccion(rs.getString("direccion"));
                 tecnico.setCorreo(rs.getString("correo"));
 
@@ -176,7 +202,7 @@ public class GestionTecnico {
                 tecnico.setNombre2(rs.getString("nombre2"));
                 tecnico.setApellido1(rs.getString("apellido1"));
                 tecnico.setApellido2(rs.getString("apellido2"));
-                tecnico.setTelefono(rs.getInt("telefono"));
+                tecnico.setTelefono(rs.getString("telefono"));
                 tecnico.setDireccion(rs.getString("direccion"));
                 tecnico.setCorreo(rs.getString("correo"));
 
@@ -212,7 +238,7 @@ public class GestionTecnico {
             ps.setString(4, tecnico.getApellido2());
             ps.setString(5, tecnico.getTipoDocumento()); // subconsulta
             ps.setInt(6, tecnico.getDocumento());
-            ps.setInt(7, tecnico.getTelefono());
+            ps.setString(7, tecnico.getTelefono());
             ps.setString(8, tecnico.getDireccion());
             ps.setString(9, tecnico.getCorreo());
             ps.setInt(10, idPersona);
@@ -240,7 +266,7 @@ public class GestionTecnico {
             ps.setString(4, tecnico.getNombre2());
             ps.setString(5, tecnico.getApellido1());
             ps.setString(6, tecnico.getApellido2());
-            ps.setInt(7, tecnico.getTelefono());
+            ps.setString(7, tecnico.getTelefono());
             ps.setString(8, tecnico.getDireccion());
             ps.setString(9, tecnico.getCorreo());
 

@@ -6,93 +6,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.EspecialidadTecnicoController">
-   <left>
-      <VBox prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" prefHeight="80.0" prefWidth="150.0">
-               <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#animacionBarraLateral" prefHeight="32.0" prefWidth="32.0" stylesheets="@../CSS/EstiloDashboard.css" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="600.0" prefWidth="150.0" spacing="10.0">
-               <children>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnActivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-home.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-producto.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-venta.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-historial-de-pedidos.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-cliente.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-proveedor.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" styleClass="trasparente" stylesheets="@../CSS/EstiloDashboard.css">
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="btnInactivo">
-                           <image>
-                              <Image url="@../Imagenes/ImgDashboard/icon-mecanico.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.EspecialidadTecnicoController">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -141,19 +61,19 @@
                         <Pane prefHeight="60.0" prefWidth="91.0" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="180.0" prefWidth="870.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="180.0" prefWidth="870.0">
                      <VBox.margin>
                         <Insets bottom="2.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
                      <children>
-                        <VBox prefHeight="157.0" prefWidth="870.0">
+                        <VBox prefHeight="172.0" prefWidth="389.0">
                            <children>
                               <Label prefHeight="24.0" prefWidth="128.0" text="Descripcion">
                                  <VBox.margin>
                                     <Insets left="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <HBox prefHeight="166.0" prefWidth="870.0">
+                              <HBox prefHeight="154.0" prefWidth="812.0">
                                  <children>
                                     <TextArea fx:id="txtDescripcion" prefHeight="157.0" prefWidth="381.0">
                                        <font>

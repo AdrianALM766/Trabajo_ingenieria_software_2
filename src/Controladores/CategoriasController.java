@@ -43,10 +43,17 @@ public class CategoriasController implements Initializable {
         listarInformacionVBox();
     }
 
+    /**
+     * Recibe el Stage principal para permitir abrir ventanas modales desde este controlador.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Configura el listener que escucha las acciones realizadas desde cada item visual.
+     * Dependiendo del valor de "accion" ejecuta eliminar o modificar categoría.
+     */
     private void configurarListener() {
         listener = (categoria, accion) -> {
             switch (accion) {
@@ -62,6 +69,10 @@ public class CategoriasController implements Initializable {
         };
     }
 
+    /**
+     * Obtiene la lista de categorías desde la base de datos y las muestra
+     * dentro del VBox usando el archivo FXML ItemCategoria.fxml como plantilla visual.
+     */
     public void listarInformacionVBox() {
         gestionCategorias = new GestionCategorias();
         List<Categorias> categoriaList = gestionCategorias.obtenerInfoDesdeBD();
@@ -84,15 +95,15 @@ public class CategoriasController implements Initializable {
 
     }
 
-    @FXML
-    private void animacionBarraLateral(MouseEvent event) {
-    }
-
+    /**
+     * Evento al hacer clic en el botón "Agregar".
+     * Valida los campos, verifica si la categoría ya existe y la añade a la base de datos.
+     */
     @FXML
     private void agregarCategoria(MouseEvent event) {
         gestionCategorias = new GestionCategorias();
 
-        if (txtNombreCategoria.getText().isEmpty()) {
+        if (txtNombreCategoria.getText().trim().isEmpty()) {
             Dialogos.mostrarDialogoSimple("Error", "La categoria debe tener nombre.", "../Imagenes/icon-error.png");
             return;
         }
@@ -116,6 +127,10 @@ public class CategoriasController implements Initializable {
             limpiarCampos();
     }
 
+    /**
+     * Elimina una categoría después de confirmar la acción con el usuario.
+     * Si se elimina correctamente, se actualiza la lista visual.
+     */
     private void eliminarCategoria(Categorias categoria) {
         gestionCategorias = new GestionCategorias();
         int idCategoria = gestionCategorias.obtenerIdPorNombre(categoria.getNombre());
@@ -143,6 +158,9 @@ public class CategoriasController implements Initializable {
         Dialogos.mostrarDialogoSimple("Exito", "La categoria fue eliminado del inventario sin inconvenientes.", "../Imagenes/icon-exito.png");
     }
 
+    /**
+     * Abre una ventana modal para modificar los datos de una categoría seleccionada.
+     */
     public void mostrarVentanaModificar(Categorias categorias) {
         try {
             FXMLLoader loader = new FXMLLoader(Dialogos.class.getResource("/Vistas/ModificarCategoria.fxml"));
@@ -170,6 +188,10 @@ public class CategoriasController implements Initializable {
         txtNombreCategoria.clear();
     }
 
+    /**
+     * Aplica validaciones de longitud a los campos de texto para evitar
+     * que el usuario exceda los límites permitidos.
+     */
     private void tamañoCajaTexto() {
         validaciones = new Validaciones();
 

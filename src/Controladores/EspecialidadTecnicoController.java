@@ -43,10 +43,22 @@ public class EspecialidadTecnicoController implements Initializable {
         listarInformacionVBox();
     }
 
+    /**
+     * RECIBIR STAGE PRINCIPAL Guarda la referencia del Stage para permitir que
+     * el controlador pueda abrir nuevas ventanas modales o controlar la ventana
+     * actual.
+     */
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * CONFIGURAR LISTENER PARA ITEMS Define las acciones que pueden ejecutar
+     * los items individuales: eliminar o modificar una especialidad. Utiliza
+     * una expresión lambda para simplificar la implementación de la interfaz
+     * Listener.
+     */
     private void configurarListener() {
         listener = (especialidad, accion) -> {
             switch (accion) {
@@ -62,6 +74,11 @@ public class EspecialidadTecnicoController implements Initializable {
         };
     }
 
+    /**
+     * LISTAR ESPECIALIDADES EN EL VBOX Obtiene todas las especialidades desde
+     * la base de datos, limpia el contenedor y agrega dinámicamente un item
+     * visual (ItemEspecialidad.fxml) por cada especialidad encontrada.
+     */
     public void listarInformacionVBox() {
         gestionEspecialidad = new GestionEspecialidad();
         List<EspecialidadTecnico> especialidadList = gestionEspecialidad.obtenerInfoDesdeBD();
@@ -82,10 +99,12 @@ public class EspecialidadTecnicoController implements Initializable {
         }
     }
 
-    @FXML
-    private void animacionBarraLateral(MouseEvent event) {
-    }
-
+    /**
+     * AGREGAR NUEVA ESPECIALIDAD Valida los campos, verifica que no exista una
+     * especialidad con el mismo nombre, crea el objeto EspecialidadTecnico y lo
+     * envía a la base de datos. Finalmente actualiza la lista y limpia los
+     * campos.
+     */
     @FXML
     private void agregar(MouseEvent event) {
         gestionEspecialidad = new GestionEspecialidad();
@@ -114,6 +133,11 @@ public class EspecialidadTecnicoController implements Initializable {
         limpiarCampos();
     }
 
+    /**
+     * ELIMINAR ESPECIALIDAD Busca el id en la base de datos, pide confirmación
+     * al usuario y elimina la especialidad si es seguro hacerlo. Después
+     * recarga el listado.
+     */
     private void eliminar(EspecialidadTecnico especialidad) {
         gestionEspecialidad = new GestionEspecialidad();
 
@@ -138,6 +162,11 @@ public class EspecialidadTecnicoController implements Initializable {
         Dialogos.mostrarDialogoSimple("Exito", "La especialidad fue eliminado del inventario sin inconvenientes.", "../Imagenes/icon-exito.png");
     }
 
+    /**
+     * MOSTRAR VENTANA DE MODIFICAR ESPECIALIDAD Abre un nuevo Stage de forma
+     * modal, carga el FXML de modificación y envía la información actual de la
+     * especialidad seleccionada.
+     */
     private void mostrarVentanaModificar(EspecialidadTecnico especialidad) {
         try {
             FXMLLoader loader = new FXMLLoader(Dialogos.class.getResource("/Vistas/ModificarEspecialidad.fxml"));
@@ -165,6 +194,11 @@ public class EspecialidadTecnicoController implements Initializable {
         txtNombre.clear();
     }
 
+    /**
+     * LIMITAR TAMAÑO DE TEXTOS Aplica límites de caracteres al TextField y
+     * TextArea mediante la clase Validaciones para evitar desbordes o datos
+     * demasiado extensos.
+     */
     private void tamañoCajaTexto() {
         validaciones = new Validaciones();
 

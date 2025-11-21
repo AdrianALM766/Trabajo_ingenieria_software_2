@@ -72,22 +72,7 @@
                   <Button mnemonicParsing="false" onMouseClicked="#obtenerDocumento" prefHeight="28.0" prefWidth="84.0" styleClass="btnBuscar" stylesheets="@../CSS/EstilosVentasProductos.css" text="Elegir" textFill="WHITE" />
                   <Label prefHeight="27.0" prefWidth="19.0">
                      <tooltip>
-                        <Tooltip text="Agregar usuario" />
-                     </tooltip>
-                     <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="20.0" onMouseClicked="#agregar" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Imagenes/icon-agregar-usuario.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <HBox.margin>
-                        <Insets left="5.0" right="3.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label prefHeight="27.0" prefWidth="19.0">
-                     <tooltip>
-                        <Tooltip text="Empty Tooltip" />
+                        <Tooltip text="Modificar Cliente" />
                      </tooltip>
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="20.0" onMouseClicked="#modificar" pickOnBounds="true" preserveRatio="true">
@@ -97,7 +82,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets right="3.0" />
+                        <Insets left="5.0" right="3.0" />
                      </HBox.margin>
                   </Label>
                   <Label prefHeight="27.0" prefWidth="19.0">

@@ -1,5 +1,6 @@
 package Controladores;
 
+import Gestiones.Dialogos;
 import Gestiones.GestionesVarias;
 import Gestiones.Validaciones;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +33,8 @@ public class VerificacionCorreoController implements Initializable {
     private TextField txt4;
     @FXML
     private TextField txt3;
+    @FXML
+    private Button btnVerificar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,45 +53,39 @@ public class VerificacionCorreoController implements Initializable {
 
     @FXML
     private void VerificarCodigoPanel(MouseEvent event) {
+        if (!validarCampo()) {
+            return;
+        }
 
         int codigoIngresado = Integer.parseInt(obtenerCodigo());
         int codigoCorrecto = GestionesVarias.getCodigoVerificacion();
-
-        System.out.println("Código ingresado: " + codigoIngresado);
-        System.out.println("Código correcto guardado: " + codigoCorrecto);
-
+        
         if (codigoIngresado == codigoCorrecto) {
-            //llamarVentanaPrincipal();
-            System.out.println("✅ Código correcto. Inicio de sesión permitido.");
+            try {
+            Parent root;
+            root = FXMLLoader.load(getClass().getResource("/Vistas/BarraLateralPrincipal.fxml"));
+            Stage stage = (Stage) btnVerificar.getScene().getWindow(); // ventana actual
+            stage.setScene(new Scene(root)); // cambiamos solo la escena
+            stage.show();
+        } catch (IOException ex) {
+            System.getLogger(BarraLateralPrincipalController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         } else {
             System.out.println("❌ Código incorrecto.");
         }
 
     }
-/*
-    public void llamarVentanaPrincipal() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vistas/VentanaPrincipal.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-
-            stage.setScene(scene);
-
-            VentanaPrincipalController controller = loader.getController();
-            controller.setStage(stage);
-
-            stage.show();
-
-            if (this.stage != null) {
-                this.stage.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    
+    private boolean validarCampo(){
+        if (txt1.getText().trim() == null || txt1.getText().trim().isEmpty() || 
+                txt2.getText().trim() == null || txt2.getText().trim().isEmpty() || 
+                txt3.getText().trim() == null || txt3.getText().trim().isEmpty() || 
+                txt4.getText().trim() == null || txt4.getText().trim().isEmpty()) {
+            Dialogos.mostrarDialogoSimple("ERROR", "Ingrese el codigo de verificación. ", "../Imagenes/icon-error.png");
+            return false;
         }
-    }*/
+        return true;
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;

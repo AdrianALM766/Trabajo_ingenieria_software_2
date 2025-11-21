@@ -16,181 +16,6 @@ public class GestionesVarias {
 
     private static int codigoVerificacion;
 
-    public boolean validarUsuarioInicioSesion(String usuario, String password) {
-        // 🚩 Validaciones iniciales para evitar que se envíen datos vacíos o nulos
-        if (usuario == null || usuario.isEmpty()) {
-            System.out.println("❌ El correo de usuario está vacío.");
-            return false;
-        }
-
-        if (password == null || password.isEmpty()) {
-            System.out.println("❌ La contraseña está vacía.");
-            return false;
-        }
-
-        try (Connection conn = ConexionBaseDatos.conectar()) {
-            // Connection: objeto que representa la conexión activa con la base de datos.
-            // Aquí se obtiene llamando a una clase "ConexionBaseDatos" que abre la conexión.
-
-            // Consulta SQL que devuelve la contraseña encriptada de un usuario específico
-            String sql = "SELECT contraseña FROM usuarios WHERE correo = ?";
-
-            // PreparedStatement: se usa para ejecutar consultas SQL seguras con parámetros.
-            // El "?" es un placeholder que evita SQL Injection (ataques de inyección de código).
-            PreparedStatement stmt = conn.prepareStatement(sql);
-
-            // Se reemplaza el "?" con el valor real que escribió el usuario (su correo)
-            stmt.setString(1, usuario);
-
-            // ResultSet: representa la tabla de resultados que devuelve la consulta SQL
-            ResultSet rs = stmt.executeQuery();
-
-            // Si no hay resultados, significa que no existe ningún usuario con ese correo
-            if (!rs.next()) {
-                System.out.println("❌ No existe ningún usuario con el correo: " + usuario);
-                return false; // salir de inmediato
-            }
-
-            // Si existe el usuario, se obtiene la contraseña encriptada de la base de datos
-            String hashAlmacenado = rs.getString("contraseña");
-
-            // Encriptar.encoder.matches: compara la contraseña que ingresó el usuario (texto plano)
-            // con el hash encriptado que está en la base de datos. Devuelve true si coinciden.
-            if (!Encriptar.encoder.matches(password, hashAlmacenado)) {
-                System.out.println("❌ La contraseña no coincide para el usuario: " + usuario);
-                return false;
-            }
-
-            // ✅ Si todo está correcto (correo existe y la contraseña coincide)
-            System.out.println("✅ Inicio de sesión exitoso para: " + usuario);
-            return true;
-
-        } catch (SQLException e) {
-            // SQLException: representa cualquier error que ocurra al interactuar con la base de datos
-            System.out.println("❌ Error en la base de datos: " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Intenta registrar un usuario en la tabla `usuarios`. - Valida campos
-     * vacíos (fail-fast). - Verifica si el nombre de usuario ya existe
-     * (usuarioExiste). - Verifica si el correo ya existe (correoExiste). -
-     * Encripta la contraseña y hace el INSERT si todo está OK.
-     *
-     * Nota: estas validaciones evitan malas UX, pero la unicidad real debe
-     * estar garantizada por restricciones UNIQUE en la base de datos (para
-     * evitar condiciones de carrera).
-     */
-    public static boolean registrarUsuario(String usuario, String correo, String contrasena) {
-        // 🚩 Validaciones iniciales (fail-fast)
-        if (usuario == null || usuario.isEmpty()) {
-            System.out.println("❌ El nombre de usuario está vacío.");
-            return false;
-        }
-
-        if (correo == null || correo.isEmpty()) {
-            System.out.println("❌ El correo está vacío.");
-            return false;
-        }
-
-        if (contrasena == null || contrasena.isEmpty()) {
-            System.out.println("❌ La contraseña está vacía.");
-            return false;
-        }
-
-        // 🔍 Verificar si el nombre de usuario ya está en uso
-        if (usuarioExiste(usuario)) {
-            System.out.println("❌ El nombre de usuario ya está en uso: " + usuario);
-            return false;
-        }
-
-        // 🔍 Verificar si el correo ya está en uso
-        if (correoExiste(correo)) {
-            System.out.println("❌ El correo ya está en uso: " + correo);
-            return false;
-        }
-
-        // Preparar la sentencia INSERT
-        String sqlInsert = "INSERT INTO usuarios (usuario, correo, `contraseña`) VALUES (?, ?, ?)";
-        // Encriptar la contraseña antes de guardarla (por ejemplo con BCrypt)
-        String pass = Encriptar.encriptarContrasena(contrasena);
-
-        // try-with-resources: garantiza cierre automático de recursos (Connection, PreparedStatement)
-        try (Connection conn = ConexionBaseDatos.conectar(); PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
-
-            // Connection: representa la conexión a la base de datos (socket, credenciales, etc.)
-            // PreparedStatement: consulta precompilada que admite parámetros (?) para evitar inyección SQL.
-            // Asignamos los parámetros de la consulta a los valores reales:
-            pstmt.setString(1, usuario); // primer "?"
-            pstmt.setString(2, correo);  // segundo "?"
-            pstmt.setString(3, pass);    // tercer "?"
-
-            // executeUpdate ejecuta INSERT/UPDATE/DELETE y devuelve número de filas afectadas
-            int filas = pstmt.executeUpdate();
-
-            if (filas <= 0) {
-                System.out.println("❌ No se pudo registrar el usuario: " + usuario);
-                return false;
-            }
-
-            System.out.println("✅ Usuario registrado correctamente: " + usuario);
-            return true;
-
-        } catch (SQLException e) {
-            // SQLException: cualquier error durante la operación con la base de datos.
-            // Puede ser por conexión, constraints (clave duplicada), timeouts, etc.
-            System.out.println("❌ Error al registrar usuario: " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Comprueba si un correo ya existe en la tabla `usuarios`. - Usa SELECT con
-     * parámetro para evitar inyección SQL. - Devuelve true si encuentra al
-     * menos una fila.
-     */
-    public static boolean correoExiste(String correo) {
-        String sql = "SELECT 1 FROM usuarios WHERE correo = ? LIMIT 1";
-        // try-with-resources para garantizar el cierre de Connection, PreparedStatement y ResultSet
-        try (Connection conn = ConexionBaseDatos.conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // PreparedStatement: permite asignar parámetros seguros al SQL
-            pstmt.setString(1, correo);
-
-            // ResultSet: representa la tabla de resultados devuelta por la consulta.
-            try (ResultSet rs = pstmt.executeQuery()) {
-                // rs.next() -> true si hay al menos una fila (el correo ya existe)
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error al verificar correo: " + e.getMessage());
-            // En caso de error asumimos que no existe (o podrías preferir devolver true para bloquear registro)
-            return false;
-        }
-    }
-
-    /**
-     * Comprueba si un nombre de usuario ya existe en la tabla `usuarios`. Misma
-     * idea que correoExiste, pero buscando por la columna 'usuario'.
-     */
-    public static boolean usuarioExiste(String usuario) {
-        String sql = "SELECT 1 FROM usuarios WHERE usuario = ? LIMIT 1";
-        try (Connection conn = ConexionBaseDatos.conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, usuario);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-
-        } catch (SQLException e) {
-            System.out.println("❌ Error al verificar usuario: " + e.getMessage());
-            return false;
-        }
-    }
-
 // IMPORTANTE: este código usa clases de java.net
 // import java.net.InetAddress;
     /**
@@ -254,20 +79,18 @@ public class GestionesVarias {
     }
 
     public int codidoVerificacion(String correo) {
-        // Instancia de la clase encargada de enviar correos
-        EnviarCorreo enviar = new EnviarCorreo();
-        String asunto = "Código de verificación";
-
-        // Generar un código aleatorio de 4 dígitos entre 1000 y 9999
         Random random = new Random();
         int codigo = 1000 + random.nextInt(9000);
+        
+        // Instancia de la clase encargada de enviar correos
+        EnviarCorreo enviar = new EnviarCorreo();
+        String asunto = "Código de verificación: "+codigo;
 
         // Guardar el código en la clase GestionesVarias (para validación posterior)
         GestionesVarias.setCodigoVerificacion(codigo);
 
         // Crear el contenido del mensaje que recibirá el usuario
-        String mensaje = "Hola,\n\n"
-                + "Tu código de verificación es: " + codigo + "\n\n"
+        String mensaje = codigo+" es tu codigo de verificacion\n"
                 + "Por favor, ingresa este código en la aplicación para confirmar tu identidad.\n"
                 + "⚠️ Este código es válido solo por 10 minutos.\n\n"
                 + "Si no solicitaste este código, ignora este mensaje.\n\n"
